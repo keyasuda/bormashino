@@ -21,11 +21,10 @@ end
 task :digest do
   digest = `md5sum tmp/ruby.wasm`.split.first
   FileUtils.cp('tmp/ruby.wasm', "#{DIST}/ruby.#{digest}.wasm")
-  open(DIGEST, 'w') { |f|
+  File.open(DIGEST, 'w') { |f|
     f.puts "export default rubyDigest = '#{digest}'
 "
   }
 end
 
-task default: %i[pack digest] do
-end
+task default: %i[pack digest]

@@ -1,5 +1,7 @@
 require 'rack'
+# rubocop:disable Lint/Void
 Rack::Response # workaround
+# rubocop:enable Lint/Void
 require 'stringio'
 require 'sinatra/base'
 
@@ -16,6 +18,7 @@ class MyApp < Sinatra::Base
 end
 
 app = MyApp.new
+# rubocop:disable Style/GlobalVars
 $app_call =
   lambda do |path|
     app.call({
@@ -26,3 +29,4 @@ $app_call =
                'rack.errors' => StringIO.new(''),
              })
   end
+# rubocop:enable Style/GlobalVars
