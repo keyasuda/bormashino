@@ -1,0 +1,31 @@
+require 'fileutils'
+require 'uri'
+
+RUBY_RELEASE = 'https://github.com/ruby/ruby.wasm/releases/download/ruby-head-wasm-wasi-0.3.0/ruby-head-wasm32-unknown-wasi-full-js.tar.gz'
+RUBY_ROOT = File.basename(URI(RUBY_RELEASE).path).split('.').first.sub('ruby-', '')
+WASI_VFS = 'wasi-vfs'
+DIST = 'dist'
+DIGEST = 'js/ruby-digest.js'
+
+task :init do
+  system "curl -L #{RUBY_RELEASE} | tar xz"
+  FileUtils.rm(File.join(RUBY_ROOT, '/usr/local/lib/libruby-static.a'))
+  FileUtils.rm_rf(File.join(RUBY_ROOT, '/usr/local/include'))
+end
+
+task :pack do
+  FileUtils.mkdir_p('tmp')
+  system "#{WASI_VFS} pack #{RUBY_ROOT}/usr/local/bin/ruby --mapdir /usr::#{RUBY_ROOT}/usr --mapdir /src::./src --mapdir /stub::./stub -o tmp/ruby.wasm"
+end
+
+task :digest do
+  digest = `md5sum tmp/ruby.wasm`.split(' ').first
+  FileUtils.cp('tmp/ruby.wasm', "#{DIST}/ruby.#{digest}.wasm")
+  open(DIGEST, 'w') { |f|
+    f.puts "export default rubyDigest = '#{digest}'
+"
+  }
+end
+
+task default: %i[pack digest] do
+end

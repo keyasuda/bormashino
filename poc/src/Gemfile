@@ -1,0 +1,5 @@
+# SPA用gem
+source 'https://rubygems.org'
+
+gem 'ruby2_keywords', '0.0.4'
+gem 'sinatra'

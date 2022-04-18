@@ -1,0 +1,6 @@
+# 開発環境用gem
+source 'https://rubygems.org'
+
+gem 'fablicop', require: false
+gem 'guard'
+gem 'guard-rake'
