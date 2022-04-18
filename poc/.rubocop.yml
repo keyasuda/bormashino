@@ -37,3 +37,6 @@ Style/FrozenStringLiteralComment:
 
 Lint/EmptyClass:
   Enabled: false
+
+Rails/RakeEnvironment:
+  Enabled: false
