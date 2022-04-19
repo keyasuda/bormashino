@@ -7,17 +7,20 @@ WASI_VFS = 'wasi-vfs'.freeze
 DIST = 'dist'.freeze
 DIGEST = 'js/ruby-digest.js'.freeze
 
+desc '初期化 ruby.wasmをダウンロードし使用できる状態にする'
 task :init do
   system "curl -L #{RUBY_RELEASE} | tar xz"
   FileUtils.rm(File.join(RUBY_ROOT, '/usr/local/lib/libruby-static.a'))
   FileUtils.rm_rf(File.join(RUBY_ROOT, '/usr/local/include'))
 end
 
+desc 'wasi_vfsでアプリに使用するRubyスクリプト群を埋め込む'
 task :pack do
   FileUtils.mkdir_p('tmp')
   system "#{WASI_VFS} pack #{RUBY_ROOT}/usr/local/bin/ruby --mapdir /usr::#{RUBY_ROOT}/usr --mapdir /src::./src --mapdir /stub::./stub -o tmp/ruby.wasm"
 end
 
+desc 'pack済みのruby.wasmのMD5を取りファイル名につけてコピーし、import用のJSを出力する'
 task :digest do
   digest = `md5sum tmp/ruby.wasm`.split.first
   FileUtils.cp('tmp/ruby.wasm', "#{DIST}/ruby.#{digest}.wasm")
@@ -27,4 +30,5 @@ task :digest do
   }
 end
 
+desc 'packしdigestする'
 task default: %i[pack digest]
