@@ -5,6 +5,13 @@ import rubyDigest from './ruby-digest.js'
 
 const vm = new RubyVM()
 
+// JSでの値をRubyでの値に変換する
+const toRbValue = (v) => {
+  const utils = vm.eval('Bormashino::Utils')
+  const input = encodeURIComponent(JSON.stringify(v))
+  return utils.call('to_rb_value', vm.eval("'" + input + "'"))
+}
+
 const applyServerResult = (serverRet) => {
   const ret = JSON.parse(serverRet.toJS())
   console.log(ret)
@@ -29,15 +36,11 @@ const requestToServer = (method, path, payload) => {
 
   switch (method) {
     case 'get':
-      ret = server.call('get', vm.eval("'" + path + "'"))
+      ret = server.call('get', toRbValue(path))
       break
 
     case 'post':
-      ret = server.call(
-        'post',
-        vm.eval("'" + path + "'"),
-        vm.eval("'" + payload + "'")
-      )
+      ret = server.call('post', toRbValue(path), toRbValue(payload))
       break
   }
 
@@ -47,10 +50,15 @@ const requestToServer = (method, path, payload) => {
 const formSubmitHook = (e) => {
   e.preventDefault()
   const form = e.target
+  const action = form.action
   const payload = new URLSearchParams(new FormData(form)).toString()
 
   const server = vm.eval('Bormashino::Server')
-  const ret = server.call('post', vm.eval("'/'"), vm.eval("'" + payload + "'"))
+  const ret = server.call(
+    'post',
+    toRbValue(new URL(action).pathname),
+    toRbValue(payload)
+  )
   applyServerResult(ret)
 }
 

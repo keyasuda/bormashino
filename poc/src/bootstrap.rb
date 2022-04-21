@@ -3,6 +3,7 @@ require 'rack'
 Rack::Response # workaround
 # rubocop:enable Lint/Void
 require 'stringio'
+require 'cgi'
 require_relative 'app'
 
 module Bormashino
@@ -31,7 +32,10 @@ module Bormashino
     end
   end
 
-  module Client
+  module Utils
+    def self.to_rb_value(escaped_json)
+      JSON.parse(CGI.unescape(escaped_json))
+    end
   end
 end
 
