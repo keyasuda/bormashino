@@ -1,3 +1,38 @@
-<h1>Hello World!</h1>
-<h2>はろーわーるど</h2>
-Hello world
+<section class="todoapp">
+  <header class="header">
+    <h1>todos</h1>
+    <%= form('/', :post) %>
+    <input class="new-todo" placeholder="What needs to be done?" autofocus="" name="new-todo">
+  </header>
+
+  <% if @todos.size > 0 %>
+    <section class="main">
+      <input id="toggle-all" class="toggle-all" type="checkbox">
+      <label for="toggle-all">Mark all as complete</label>
+      <ul class="todo-list"></ul>
+    </section>
+
+    <footer class="footer">
+      <span class="todo-count"><strong>0</strong> items left</span>
+      <ul class="filters">
+        <li>
+          <a href="#/" class="selected">All</a>
+        </li>
+        <li>
+          <a href="#/active">Active</a>
+        </li>
+        <li>
+          <a href="#/completed">Completed</a>
+        </li>
+      </ul>
+      <button class="clear-completed" style="display: none;"></button>
+    </footer>
+  <% end %>
+</section>
+
+<footer class="info">
+  <p>Double-click to edit a todo</p>
+	<!-- Change this out with your name and url ↓ -->
+	<p>Created by <a href="https://github.com/keyasuda">@keyasuda</a></p>
+	<p>An <a href="https://github.com/keyasuda/bormashino">Bormaŝino</a> port of <a href="http://todomvc.com">TodoMVC</a></p>
+</footer>

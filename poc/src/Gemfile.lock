@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    json_pure (2.6.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     rack (2.2.3)
@@ -12,14 +13,17 @@ GEM
       rack (~> 2.2)
       rack-protection (= 2.2.0)
       tilt (~> 2.0)
+    sinatra-formhelpers-ng (1.9.1)
     tilt (2.0.10)
 
 PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  json_pure (~> 2.6, >= 2.6.1)
   ruby2_keywords (= 0.0.4)
   sinatra
+  sinatra-formhelpers-ng (~> 1.9, >= 1.9.1)
 
 BUNDLED WITH
    2.2.23
