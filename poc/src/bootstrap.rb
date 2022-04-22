@@ -4,7 +4,17 @@ Rack::Response # workaround
 # rubocop:enable Lint/Void
 require 'stringio'
 require 'cgi'
+require 'js'
+require 'singleton'
 require_relative 'app'
+
+module JS
+  class Object
+    def to_rb
+      JSON.parse(JS.global[:JSON].call(:stringify, self).inspect)
+    end
+  end
+end
 
 module Bormashino
   module Server
@@ -35,6 +45,45 @@ module Bormashino
   module Utils
     def self.to_rb_value(escaped_json)
       JSON.parse(CGI.unescape(escaped_json))
+    end
+  end
+
+  class LocalStorage
+    include Singleton
+
+    def initialize
+      @storage = JS.global[:localStorage]
+    end
+
+    def length
+      @storage[:length].to_rb
+    end
+
+    def key(index)
+      @storage.call(:key, index).to_rb
+    end
+
+    def get_item(key_name)
+      @storage.call(:getItem, key_name).to_rb
+    end
+
+    def set_item(key_name, key_value)
+      @storage.call(:setItem, key_name, key_value)
+    end
+
+    def remove_item(key_name)
+      @storage.call(:removeItem, key_name)
+    end
+
+    def clear
+      @storage.call(:clear)
+    end
+  end
+
+  class SessionStorage < LocalStorage
+    def initialize
+      super
+      @storage = JS.global[:sessionStorage]
     end
   end
 end
