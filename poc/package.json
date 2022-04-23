@@ -6,7 +6,8 @@
   },
   "source": "js/index.html",
   "scripts": {
-    "dev": "parcel"
+    "dev": "parcel --dist-dir tmp/",
+    "build": "parcel build"
   },
   "dependencies": {
     "@wasmer/wasi": "0.12.0",

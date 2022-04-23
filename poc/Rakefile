@@ -4,7 +4,7 @@ require 'uri'
 RUBY_RELEASE = 'https://github.com/ruby/ruby.wasm/releases/download/ruby-head-wasm-wasi-0.3.0/ruby-head-wasm32-unknown-wasi-full-js.tar.gz'.freeze
 RUBY_ROOT = File.basename(URI(RUBY_RELEASE).path).split('.').first.sub('ruby-', '')
 WASI_VFS = 'wasi-vfs'.freeze
-DIST = 'dist'.freeze
+TMP = 'tmp'.freeze
 DIGEST = 'js/ruby-digest.js'.freeze
 
 desc '初期化 ruby.wasmをダウンロードし使用できる状態にする'
@@ -21,14 +21,22 @@ task :pack do
 end
 
 desc 'pack済みのruby.wasmのMD5を取りファイル名につけてコピーし、import用のJSを出力する'
-task :digest do
+task :digest, [:destination] do |_, args|
   digest = `md5sum tmp/ruby.wasm`.split.first
-  FileUtils.cp('tmp/ruby.wasm', "#{DIST}/ruby.#{digest}.wasm")
+  FileUtils.cp('tmp/ruby.wasm', "#{args[:destination]}/ruby.#{digest}.wasm")
   File.open(DIGEST, 'w') { |f|
     f.puts "export default rubyDigest = '#{digest}'
 "
   }
 end
 
+desc '指定ディレクトリ中のdigest付きruby.wasmを削除する'
+task :delete_wasms, [:target] do |_, args|
+  Dir.glob(File.join(args[:target], 'ruby.*.wasm')).each { |f| FileUtils.rm(f) }
+end
+
 desc 'packしdigestする'
-task default: %i[pack digest]
+task default: %i[pack] do
+  Rake::Task['delete_wasms'].invoke(TMP)
+  Rake::Task['digest'].invoke(TMP)
+end
