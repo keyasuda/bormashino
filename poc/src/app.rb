@@ -1,6 +1,8 @@
 require 'sinatra/base'
 require 'sinatra/form_helpers'
 
+require_relative 'todo'
+
 class App < Sinatra::Base
   helpers Sinatra::FormHelpers
   set :protection, false
@@ -11,7 +13,15 @@ class App < Sinatra::Base
   end
 
   post '/' do
-    p params['new-todo']
+    unless params['new-todo'].empty?
+      todo = Todo.new({
+                        'id' => SecureRandom.uuid,
+                        'title' => params['new-todo'],
+                        'completed' => false,
+                      })
+      todo.save
+    end
+
     redirect to('/')
   end
 end
