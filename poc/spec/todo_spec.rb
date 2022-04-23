@@ -45,6 +45,17 @@ RSpec.describe Todo do
         expect(JSON.parse(store[STORE_KEY])[0]['completed']).to be false
       end
     end
+
+    describe 'delete' do
+      subject { described_class.all.first }
+
+      before { store[STORE_KEY] = [params].to_json }
+
+      it 'can be deleted' do
+        subject.destroy
+        expect(store[STORE_KEY]).to eq '[]'
+      end
+    end
   end
 
   describe 'class methods' do

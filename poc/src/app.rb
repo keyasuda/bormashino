@@ -31,4 +31,9 @@ class App < Sinatra::Base
 
     redirect to('/')
   end
+
+  delete '/todos/:id' do |id|
+    Todo.get(id).destroy
+    redirect to('/')
+  end
 end

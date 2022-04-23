@@ -47,6 +47,10 @@ module Bormashino
     def self.put(path, payload)
       self.request('PUT', path, payload)
     end
+
+    def self.delete(path, payload)
+      self.request('DELETE', path, payload)
+    end
   end
 
   module Utils

@@ -21,6 +21,10 @@ class Todo
     self.class.set(self)
   end
 
+  def destroy
+    self.class.delete(self)
+  end
+
   def to_json(*_args)
     { 'id' => @id, 'title' => @title, 'completed' => @completed }.to_json
   end
@@ -49,5 +53,10 @@ class Todo
                 [self.all, item].flatten
               end
     @store.set_item(KEY, current.to_json)
+  end
+
+  def self.delete(item)
+    tobe = self.all.reject { |t| t.id == item.id }
+    @store.set_item(KEY, tobe.to_json)
   end
 end

@@ -11,7 +11,9 @@
       <label><%= todo.title %></label>
     </form>
 
-    <button class="destroy"></button>
+    <form action="/todos/<%= todo.id %>" method="delete">
+      <button class="destroy" data-bormashino-submit-on="click"></button>
+    </form>
   </div>
   <input class="edit" value="<%= todo.title %>">
 </li>
