@@ -1,10 +1,7 @@
 require 'sinatra/base'
-require 'sinatra/form_helpers'
-
 require_relative 'todo'
 
 class App < Sinatra::Base
-  helpers Sinatra::FormHelpers
   set :protection, false
 
   get '/' do
@@ -21,6 +18,14 @@ class App < Sinatra::Base
                       })
       todo.save
     end
+
+    redirect to('/')
+  end
+
+  put '/todos/:id' do |id|
+    todo = Todo.get(id)
+    values = params.select { |k, _v| %w[title completed].include?(k) }
+    todo.update(values)
 
     redirect to('/')
   end

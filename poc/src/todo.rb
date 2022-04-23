@@ -13,6 +13,7 @@ class Todo
   def update(params)
     @title = params['title'] || @title
     @completed = params['completed'] if params.keys.include?('completed')
+    @completed = false if @completed == 'false'
     save
   end
 

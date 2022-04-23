@@ -1,0 +1,17 @@
+<li <% if todo.completed %>class="completed"<% end %>>
+  <div class="view">
+    <form action="/todos/<%= todo.id %>" method="put">
+      <input type="hidden" name="completed" value="false">
+      <input
+        class="toggle"
+        data-bormashino-submit-on="change"
+        type="checkbox"
+        name="completed"
+        <% if todo.completed %>checked<% end %>>
+      <label><%= todo.title %></label>
+    </form>
+
+    <button class="destroy"></button>
+  </div>
+  <input class="edit" value="<%= todo.title %>">
+</li>

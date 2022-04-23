@@ -8,6 +8,8 @@ require 'js'
 require 'singleton'
 require 'stringio'
 
+require_relative 'storage'
+
 module JS
   class Object
     def to_rb
@@ -26,6 +28,7 @@ module Bormashino
       @app.call({
                   'HTTP_HOST' => 'example.com:0',
                   'REQUEST_METHOD' => method,
+                  'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
                   'QUERY_STRING' => '',
                   'PATH_INFO' => path,
                   'rack.input' => StringIO.new(payload),
@@ -40,50 +43,15 @@ module Bormashino
     def self.post(path, payload)
       self.request('POST', path, payload)
     end
+
+    def self.put(path, payload)
+      self.request('PUT', path, payload)
+    end
   end
 
   module Utils
     def self.to_rb_value(escaped_json)
       JSON.parse(CGI.unescape(escaped_json))
-    end
-  end
-
-  class LocalStorage
-    include Singleton
-
-    def initialize
-      @storage = JS.global[:localStorage]
-    end
-
-    def length
-      @storage[:length].to_rb
-    end
-
-    def key(index)
-      @storage.call(:key, index).to_rb
-    end
-
-    def get_item(key_name)
-      @storage.call(:getItem, key_name).to_rb
-    end
-
-    def set_item(key_name, key_value)
-      @storage.call(:setItem, key_name, key_value)
-    end
-
-    def remove_item(key_name)
-      @storage.call(:removeItem, key_name)
-    end
-
-    def clear
-      @storage.call(:clear)
-    end
-  end
-
-  class SessionStorage < LocalStorage
-    def initialize
-      super
-      @storage = JS.global[:sessionStorage]
     end
   end
 end

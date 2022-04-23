@@ -44,7 +44,8 @@ const requestToServer = (method, path, payload) => {
       break
 
     case 'post':
-      ret = server.call('post', toRbValue(path), toRbValue(payload))
+    case 'put':
+      ret = server.call(method, toRbValue(path), toRbValue(payload))
       break
   }
 
@@ -55,20 +56,37 @@ const formSubmitHook = (e) => {
   e.preventDefault()
   const form = e.target
   const action = form.action
+  const method = form.attributes['method'].value
   const payload = new URLSearchParams(new FormData(form)).toString()
 
   const server = vm.eval('Bormashino::Server')
   const ret = server.call(
-    'post',
+    method,
     toRbValue(new URL(action).pathname),
     toRbValue(payload)
   )
   applyServerResult(ret)
 }
 
+const formInputEventHook = (e, form) => {
+  e.preventDefault()
+  form.dispatchEvent(new Event('submit'))
+}
+
 const hookTransitionElements = () => {
   Array.from(document.querySelectorAll('form')).forEach((f) => {
     f.addEventListener('submit', formSubmitHook, false)
+
+    f.querySelectorAll('input').forEach((i) => {
+      const eventAttr = i.attributes['data-bormashino-submit-on']
+      if (eventAttr) {
+        i.addEventListener(
+          eventAttr.value,
+          (e) => formInputEventHook(e, f),
+          false
+        )
+      }
+    })
   })
 }
 

@@ -38,6 +38,12 @@ RSpec.describe Todo do
         subject.update({ 'completed' => true })
         expect(JSON.parse(store[STORE_KEY])[0]['completed']).to be true
       end
+
+      it 'can be unchecked' do
+        subject.update({ 'completed' => true })
+        subject.update({ 'completed' => 'false' })
+        expect(JSON.parse(store[STORE_KEY])[0]['completed']).to be false
+      end
     end
   end
 

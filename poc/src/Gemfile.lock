@@ -13,7 +13,6 @@ GEM
       rack (~> 2.2)
       rack-protection (= 2.2.0)
       tilt (~> 2.0)
-    sinatra-formhelpers-ng (1.9.1)
     tilt (2.0.10)
 
 PLATFORMS
@@ -23,7 +22,6 @@ DEPENDENCIES
   json_pure (~> 2.6, >= 2.6.1)
   ruby2_keywords (= 0.0.4)
   sinatra
-  sinatra-formhelpers-ng (~> 1.9, >= 1.9.1)
 
 BUNDLED WITH
    2.2.23
