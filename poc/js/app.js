@@ -45,6 +45,7 @@ const requestToServer = (method, path, payload) => {
 
     case 'post':
     case 'put':
+    case 'patch':
     case 'delete':
       ret = server.call(method, toRbValue(path), toRbValue(payload))
       break

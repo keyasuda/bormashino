@@ -48,6 +48,10 @@ module Bormashino
       self.request('PUT', path, payload)
     end
 
+    def self.patch(path, payload)
+      self.request('PATCH', path, payload)
+    end
+
     def self.delete(path, payload)
       self.request('DELETE', path, payload)
     end
