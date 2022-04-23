@@ -24,6 +24,16 @@ class App < Sinatra::Base
     redirect to('/')
   end
 
+  put '/todos/all' do
+    if params['toggle-all'] == 'true'
+      Todo.all.map { |t| t.update('completed' => true) }
+    else
+      Todo.all.map { |t| t.update('completed' => false) }
+    end
+
+    redirect to('/')
+  end
+
   put '/todos/:id' do |id|
     todo = Todo.get(id)
     values = params.select { |k, _v| %w[title completed].include?(k) }

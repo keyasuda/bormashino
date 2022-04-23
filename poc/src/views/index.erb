@@ -8,8 +8,19 @@
 
   <% if @todos.size > 0 %>
     <section class="main">
-      <input id="toggle-all" class="toggle-all" type="checkbox">
-      <label for="toggle-all">Mark all as complete</label>
+      <form action="/todos/all" method="PUT">
+        <input type="hidden" name="toggle-all" value="false">
+        <input
+          class="toggle-all"
+          data-bormashino-submit-on="change"
+          name="toggle-all"
+          id="toggle-all"
+          type="checkbox"
+          value="true"
+          <% if @todos.all?(&:completed) %>checked<% end %>>
+        <label for="toggle-all">Mark all as complete</label>
+      </form>
+
       <ul class="todo-list">
         <% @todos.each do |todo| %>
           <%= erb(:todo, locals: {todo: todo}, layout: false) %>

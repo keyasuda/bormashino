@@ -38,7 +38,7 @@ const requestToServer = (method, path, payload) => {
   const server = vm.eval('Bormashino::Server')
   let ret
 
-  switch (method) {
+  switch (method.toLowerCase()) {
     case 'get':
       ret = server.call('get', toRbValue(path))
       break
@@ -47,7 +47,11 @@ const requestToServer = (method, path, payload) => {
     case 'put':
     case 'patch':
     case 'delete':
-      ret = server.call(method, toRbValue(path), toRbValue(payload))
+      ret = server.call(
+        method.toLowerCase(),
+        toRbValue(path),
+        toRbValue(payload)
+      )
       break
   }
 
@@ -62,12 +66,7 @@ const formSubmitHook = (e) => {
   const payload = new URLSearchParams(new FormData(form)).toString()
 
   const server = vm.eval('Bormashino::Server')
-  const ret = server.call(
-    method,
-    toRbValue(new URL(action).pathname),
-    toRbValue(payload)
-  )
-  applyServerResult(ret)
+  requestToServer(method, new URL(action).pathname, payload)
 }
 
 const formInputEventHook = (e, form) => {
