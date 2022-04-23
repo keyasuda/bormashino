@@ -6,6 +6,8 @@ class App < Sinatra::Base
 
   get '/' do
     @todos = Todo.all
+    @remaining_count = Todo.incompleted.size
+
     erb :index
   end
 
