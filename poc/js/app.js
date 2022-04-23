@@ -113,6 +113,7 @@ const main = async () => {
     ENV['GEM_HOME'] = '/src/bundle/ruby/3.2.0+1'
     require 'js'
     require 'json/pure'
+    require_relative '/src/bormashino.rb'
     require_relative '/src/bootstrap.rb'
   `)
 
