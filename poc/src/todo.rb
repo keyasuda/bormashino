@@ -10,6 +10,12 @@ class Todo
     @completed = params['completed']
   end
 
+  def update(params)
+    @title = params['title'] || @title
+    @completed = params['completed'] if params.keys.include?('completed')
+    save
+  end
+
   def save
     self.class.set(self)
   end
@@ -19,23 +25,28 @@ class Todo
   end
 
   def self.all
-    JSON.parse(@store.get_item(KEY) || '{}').transform_values { |v| self.new(v) }
+    JSON.parse(@store.get_item(KEY) || '[]').map { |v| self.new(v) }
   end
 
   def self.get(id)
-    self.all[id]
+    self.all.find { |t| t.id == id }
   end
 
   def self.completed
-    self.all.values.select(&:completed)
+    self.all.select(&:completed)
   end
 
   def self.incompleted
-    self.all.values.reject(&:completed)
+    self.all.reject(&:completed)
   end
 
   def self.set(item)
-    current = self.all.merge({ item.id => item })
+    index = self.all.index { |t| t.id == item.id }
+    current = if index
+                self.all.tap { |a| a[index] = item }
+              else
+                [self.all, item].flatten
+              end
     @store.set_item(KEY, current.to_json)
   end
 end

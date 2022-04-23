@@ -19,16 +19,34 @@ RSpec.describe Todo do
       expect(JSON.parse(subject.to_json)).to eq params
     end
 
-    it 'can be saved' do
+    it 'can be saved as new' do
       subject.save
-      expect(store[STORE_KEY]).to eq({ params['id'] => params }.to_json)
+      expect(store[STORE_KEY]).to eq([params].to_json)
+    end
+
+    describe 'update' do
+      before { store[STORE_KEY] = [params].to_json }
+
+      let(:updated_title) { 'updated title' }
+
+      it 'can update title' do
+        subject.update({ 'title' => updated_title })
+        expect(JSON.parse(store[STORE_KEY])[0]['title']).to eq updated_title
+      end
+
+      it 'can update completed status' do
+        subject.update({ 'completed' => true })
+        expect(JSON.parse(store[STORE_KEY])[0]['completed']).to be true
+      end
     end
   end
 
   describe 'class methods' do
     let(:initial_state) {
-      { 'id1' => { 'id' => 'id1', 'title' => 'title1', 'completed' => false },
-        'id2' => { 'id' => 'id2', 'title' => 'title2', 'completed' => true } }
+      [
+        { 'id' => 'id1', 'title' => 'title1', 'completed' => false },
+        { 'id' => 'id2', 'title' => 'title2', 'completed' => true },
+      ]
     }
 
     before { store[STORE_KEY] = initial_state.to_json }
@@ -36,6 +54,10 @@ RSpec.describe Todo do
     it 'gets the item' do
       actual = described_class.get('id1')
       expect(actual.title).to eq 'title1'
+    end
+
+    it 'gets all items' do
+      expect(described_class.all.map(&:id)).to eq %w[id1 id2]
     end
 
     it 'gets completed items' do

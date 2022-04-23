@@ -9,7 +9,18 @@
     <section class="main">
       <input id="toggle-all" class="toggle-all" type="checkbox">
       <label for="toggle-all">Mark all as complete</label>
-      <ul class="todo-list"></ul>
+      <ul class="todo-list">
+        <% @todos.each do |todo| %>
+          <li <% if todo.completed %>class="completed"<% end %>>
+            <div class="view">
+              <input class="toggle" type="checkbox" <% if todo.completed %>checked<% end %>>
+              <label><%= todo.title %></label>
+              <button class="destroy"></button>
+            </div>
+            <input class="edit" value="<%= todo.title %>">
+          </li>
+        <% end %>
+      </ul>
     </section>
 
     <footer class="footer">
@@ -32,7 +43,7 @@
 
 <footer class="info">
   <p>Double-click to edit a todo</p>
-	<!-- Change this out with your name and url ↓ -->
-	<p>Created by <a href="https://github.com/keyasuda">@keyasuda</a></p>
-	<p>An <a href="https://github.com/keyasuda/bormashino">Bormaŝino</a> port of <a href="http://todomvc.com">TodoMVC</a></p>
+  <!-- Change this out with your name and url ↓ -->
+  <p>Created by <a href="https://github.com/keyasuda">@keyasuda</a></p>
+  <p>An <a href="https://github.com/keyasuda/bormashino">Bormaŝino</a> port of <a href="http://todomvc.com">TodoMVC</a></p>
 </footer>

@@ -8,7 +8,7 @@ class App < Sinatra::Base
   set :protection, false
 
   get '/' do
-    @todos = []
+    @todos = Todo.all
     erb :index
   end
 
