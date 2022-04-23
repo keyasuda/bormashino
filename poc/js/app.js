@@ -14,7 +14,7 @@ const toRbValue = (v) => {
 
 const applyServerResult = (serverRet) => {
   const ret = JSON.parse(serverRet.toJS())
-  console.log(ret)
+
   const target = document.querySelector('#display')
   switch (ret[0]) {
     case 200:
@@ -27,6 +27,10 @@ const applyServerResult = (serverRet) => {
       const path = loc.pathname + loc.search
       requestToServer('get', path)
       break
+
+    default:
+      console.error(ret)
+      target.innerHTML = ret[2][0]
   }
 }
 
