@@ -3,6 +3,12 @@ import { WasmFs } from '@wasmer/wasmfs'
 import { RubyVM } from 'ruby-head-wasm-wasi/dist/index.js'
 import rubyDigest from './ruby-digest.js'
 
+import { Router } from 'html5-history-router'
+const router = new Router()
+router.always(() =>
+  requestToServer('get', location.href.replace(location.origin, ''), null)
+)
+
 const vm = new RubyVM()
 
 // JSでの値をRubyでの値に変換する
@@ -25,7 +31,7 @@ const applyServerResult = (serverRet) => {
     case 302:
       const loc = new URL(ret[1]['Location'])
       const path = loc.pathname + loc.search
-      requestToServer('get', path)
+      router.pushState(path)
       break
 
     default:
@@ -65,7 +71,6 @@ const formSubmitHook = (e) => {
   const method = form.attributes['method'].value
   const payload = new URLSearchParams(new FormData(form)).toString()
 
-  const server = vm.eval('Bormashino::Server')
   requestToServer(method, new URL(action).pathname, payload)
 }
 
@@ -74,8 +79,19 @@ const formInputEventHook = (e, form) => {
   form.dispatchEvent(new Event('submit'))
 }
 
+const aClickEventHook = (e) => {
+  e.preventDefault()
+  router.pushState(e.target.href)
+}
+
 const hookTransitionElements = () => {
-  Array.from(document.querySelectorAll('form')).forEach((f) => {
+  document.querySelectorAll('a').forEach((a) => {
+    if (a.href.startsWith(location.origin)) {
+      a.addEventListener('click', aClickEventHook, false)
+    }
+  })
+
+  document.querySelectorAll('form').forEach((f) => {
     f.addEventListener('submit', formSubmitHook, false)
 
     f.querySelectorAll('input').forEach((i) => {
@@ -140,7 +156,7 @@ const main = async () => {
     require_relative '/src/bootstrap.rb'
   `)
 
-  requestToServer('get', '/', null)
+  requestToServer('get', location.href.replace(location.origin, ''), null)
 }
 
 main()

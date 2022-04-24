@@ -24,6 +24,18 @@ class App < Sinatra::Base
     redirect to('/')
   end
 
+  get '/active' do
+    @todos = Todo.incompleted
+    @remaining_count = @todos.size
+    erb :index
+  end
+
+  get '/completed' do
+    @todos = Todo.completed
+    @remaining_count = Todo.incompleted.size
+    erb :index
+  end
+
   put '/todos/all' do
     if params['toggle-all'] == 'true'
       Todo.all.map { |t| t.update('completed' => true) }
