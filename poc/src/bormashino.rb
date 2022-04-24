@@ -3,6 +3,7 @@ require 'rack'
 Rack::Response # workaround
 # rubocop:enable Lint/Void
 require 'json/pure'
+require 'uri'
 require 'cgi'
 require 'js'
 require 'singleton'
@@ -24,13 +25,15 @@ module Bormashino
       @app = app_class.new
     end
 
-    def self.request(method, path, payload = '', referer = '')
+    def self.request(method, target, payload = '', referer = '')
+      u = URI(target)
+
       @app.call({
                   'HTTP_HOST' => 'example.com:0',
                   'REQUEST_METHOD' => method,
                   'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
-                  'QUERY_STRING' => '',
-                  'PATH_INFO' => path,
+                  'QUERY_STRING' => u.query,
+                  'PATH_INFO' => u.path,
                   'HTTP_REFERER' => referer,
                   'rack.input' => StringIO.new(payload),
                   'rack.errors' => StringIO.new(''),

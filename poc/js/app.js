@@ -82,7 +82,7 @@ const hookTransitionElements = () => {
   document.querySelectorAll('form').forEach((f) => {
     f.addEventListener('submit', formSubmitHook, false)
 
-    f.querySelectorAll('input').forEach((i) => {
+    f.querySelectorAll('[data-bormashino-submit-on]').forEach((i) => {
       const eventAttr = i.attributes['data-bormashino-submit-on']
       if (eventAttr) {
         i.addEventListener(
@@ -93,6 +93,19 @@ const hookTransitionElements = () => {
       }
     })
   })
+
+  document
+    .querySelectorAll('[data-bormashino-event2transition]')
+    .forEach((e) => {
+      const def = JSON.parse(
+        e.attributes['data-bormashino-event2transition'].value
+      )
+      e.addEventListener(
+        def.event,
+        () => router.pushState(def.destination),
+        false
+      )
+    })
 }
 
 const main = async () => {

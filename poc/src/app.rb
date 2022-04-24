@@ -54,7 +54,7 @@ class App < Sinatra::Base
     values = params.select { |k, _v| %w[title completed].include?(k) }
     todo.update(values)
 
-    redirect back
+    redirect request.referer.split('?').first # クエリパラメータが付きっぱなしだと編集モードのままになってしまうので除去
   end
 
   delete '/todos/:id' do |id|
