@@ -6,7 +6,7 @@
     </form>
   </header>
 
-  <% if @all_count.size > 0 %>
+  <% if @all_count > 0 %>
     <section class="main">
       <form action="/todos/all" method="PUT">
         <input type="hidden" name="toggle-all" value="false">
@@ -41,7 +41,12 @@
           <a href="/completed" <% if request.path_info == '/completed' %>class="selected"<% end %>>Completed</a>
         </li>
       </ul>
-      <button class="clear-completed" style="display: none;"></button>
+
+      <% if @all_count != @remaining_count %>
+        <form action="/todos/all" method="DELETE">
+          <button class="clear-completed" type="submit">Clear completed</button>
+        </form>
+      <% end %>
     </footer>
   <% end %>
 </section>

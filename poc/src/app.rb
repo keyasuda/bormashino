@@ -49,6 +49,11 @@ class App < Sinatra::Base
     redirect back
   end
 
+  delete '/todos/all' do
+    Todo.completed.each(&:destroy)
+    redirect back
+  end
+
   put '/todos/:id' do |id|
     todo = Todo.get(id)
     values = params.select { |k, _v| %w[title completed].include?(k) }
