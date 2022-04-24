@@ -6,7 +6,7 @@
     </form>
   </header>
 
-  <% if @todos.size > 0 %>
+  <% if @all_count.size > 0 %>
     <section class="main">
       <form action="/todos/all" method="PUT">
         <input type="hidden" name="toggle-all" value="false">
@@ -17,7 +17,7 @@
           id="toggle-all"
           type="checkbox"
           value="true"
-          <% if @todos.all?(&:completed) %>checked<% end %>>
+          <% if @remaining_count == 0 %>checked<% end %>>
         <label for="toggle-all">Mark all as complete</label>
       </form>
 
