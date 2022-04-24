@@ -21,7 +21,7 @@ class App < Sinatra::Base
       todo.save
     end
 
-    redirect to('/')
+    redirect back
   end
 
   get '/active' do
@@ -43,7 +43,7 @@ class App < Sinatra::Base
       Todo.all.map { |t| t.update('completed' => false) }
     end
 
-    redirect to('/')
+    redirect back
   end
 
   put '/todos/:id' do |id|
@@ -51,11 +51,11 @@ class App < Sinatra::Base
     values = params.select { |k, _v| %w[title completed].include?(k) }
     todo.update(values)
 
-    redirect to('/')
+    redirect back
   end
 
   delete '/todos/:id' do |id|
     Todo.get(id).destroy
-    redirect to('/')
+    redirect back
   end
 end

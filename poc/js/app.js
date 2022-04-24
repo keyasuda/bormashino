@@ -5,9 +5,9 @@ import rubyDigest from './ruby-digest.js'
 
 import { Router } from 'html5-history-router'
 const router = new Router()
-router.always(() =>
-  requestToServer('get', location.href.replace(location.origin, ''), null)
-)
+router.always(() => requestToServer('get', currentPath(), '', currentPath()))
+
+const currentPath = () => location.href.replace(location.origin, '')
 
 const vm = new RubyVM()
 
@@ -40,27 +40,15 @@ const applyServerResult = (serverRet) => {
   }
 }
 
-const requestToServer = (method, path, payload) => {
+const requestToServer = (method, path, payload, referer) => {
   const server = vm.eval('Bormashino::Server')
-  let ret
-
-  switch (method.toLowerCase()) {
-    case 'get':
-      ret = server.call('get', toRbValue(path))
-      break
-
-    case 'post':
-    case 'put':
-    case 'patch':
-    case 'delete':
-      ret = server.call(
-        method.toLowerCase(),
-        toRbValue(path),
-        toRbValue(payload)
-      )
-      break
-  }
-
+  const ret = server.call(
+    'request',
+    toRbValue(method.toUpperCase()),
+    toRbValue(path),
+    toRbValue(payload),
+    toRbValue(referer)
+  )
   applyServerResult(ret)
 }
 
@@ -71,7 +59,7 @@ const formSubmitHook = (e) => {
   const method = form.attributes['method'].value
   const payload = new URLSearchParams(new FormData(form)).toString()
 
-  requestToServer(method, new URL(action).pathname, payload)
+  requestToServer(method, new URL(action).pathname, payload, currentPath())
 }
 
 const formInputEventHook = (e, form) => {
@@ -156,7 +144,7 @@ const main = async () => {
     require_relative '/src/bootstrap.rb'
   `)
 
-  requestToServer('get', location.href.replace(location.origin, ''), null)
+  requestToServer('get', currentPath(), '', currentPath())
 }
 
 main()
