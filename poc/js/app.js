@@ -22,10 +22,22 @@ const applyServerResult = (serverRet) => {
   const ret = JSON.parse(serverRet.toJS())
 
   const target = document.querySelector('#display')
+  // 現在フォーカスが当たっている要素のインデックスを取得
+  const focusedPos = Array.from(
+    document.querySelectorAll('input,textarea,button')
+  ).indexOf(document.activeElement)
+
   switch (ret[0]) {
     case 200:
       target.innerHTML = ret[2][0]
       hookTransitionElements()
+      // フォーカスを当て直す
+      if (focusedPos > -1) {
+        const target = Array.from(
+          document.querySelectorAll('input,textarea,button')
+        )[focusedPos]
+        if (target) target.focus()
+      }
       break
 
     case 302:
