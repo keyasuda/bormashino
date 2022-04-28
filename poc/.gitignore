@@ -46,3 +46,4 @@ config/environments/*.local.yml
 /.parcel-cache
 /head-wasm32-unknown-wasi-full-js
 /js/ruby-digest.js
+/wasi-vfs

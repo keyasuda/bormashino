@@ -1,42 +1,11 @@
+load 'bormashino/tasks/bormashino.rake'
+
 require 'fileutils'
 require 'uri'
 
-RUBY_RELEASE = 'https://github.com/ruby/ruby.wasm/releases/download/ruby-head-wasm-wasi-0.3.0/ruby-head-wasm32-unknown-wasi-full-js.tar.gz'.freeze
-RUBY_ROOT = File.basename(URI(RUBY_RELEASE).path).split('.').first.sub('ruby-', '')
-WASI_VFS = 'wasi-vfs'.freeze
-TMP = 'tmp'.freeze
-DIGEST = 'js/ruby-digest.js'.freeze
-
-desc '初期化 ruby.wasmをダウンロードし使用できる状態にする'
-task :init do
-  system "curl -L #{RUBY_RELEASE} | tar xz"
-  FileUtils.rm(File.join(RUBY_ROOT, '/usr/local/lib/libruby-static.a'))
-  FileUtils.rm_rf(File.join(RUBY_ROOT, '/usr/local/include'))
-end
-
-desc 'wasi_vfsでアプリに使用するRubyスクリプト群を埋め込む'
-task :pack do
-  FileUtils.mkdir_p('tmp')
-  system "#{WASI_VFS} pack #{RUBY_ROOT}/usr/local/bin/ruby --mapdir /usr::#{RUBY_ROOT}/usr --mapdir /src::./src --mapdir /stub::./stub -o tmp/ruby.wasm"
-end
-
-desc 'pack済みのruby.wasmのMD5を取りファイル名につけてコピーし、import用のJSを出力する'
-task :digest, [:destination] do |_, args|
-  digest = `md5sum tmp/ruby.wasm`.split.first
-  FileUtils.cp('tmp/ruby.wasm', "#{args[:destination]}/ruby.#{digest}.wasm")
-  File.open(DIGEST, 'w') { |f|
-    f.puts "export default rubyDigest = '#{digest}'
-"
-  }
-end
-
-desc '指定ディレクトリ中のdigest付きruby.wasmを削除する'
-task :delete_wasms, [:target] do |_, args|
-  Dir.glob(File.join(args[:target], 'ruby.*.wasm')).each { |f| FileUtils.rm(f) }
-end
-
 desc 'packしdigestする'
-task default: %i[pack] do
-  Rake::Task['delete_wasms'].invoke(TMP)
-  Rake::Task['digest'].invoke(TMP)
+task :default do
+  Rake::Task['bormashino:pack'].invoke('--mapdir /gem::../gem/')
+  Rake::Task['bormashino:delete_wasms'].invoke(TMP)
+  Rake::Task['bormashino:digest'].invoke(TMP)
 end

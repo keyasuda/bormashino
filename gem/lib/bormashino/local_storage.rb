@@ -1,3 +1,7 @@
+require 'js'
+require 'singleton'
+require_relative 'ext/js'
+
 module Bormashino
   class LocalStorage
     include Singleton

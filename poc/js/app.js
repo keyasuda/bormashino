@@ -5,7 +5,6 @@ import rubyDigest from './ruby-digest.js'
 
 import { Router } from 'html5-history-router'
 const router = new Router()
-router.always(() => requestToServer('get', currentPath(), '', currentPath()))
 
 const currentPath = () => location.href.replace(location.origin, '')
 
@@ -158,18 +157,21 @@ const main = async () => {
   await vm.setInstance(instance)
   wasi.setMemory(instance.exports.memory)
   instance.exports._initialize()
-  vm.initialize(['ruby.wasm', '-I/stub', '-EUTF-8', '-e_=0'])
+  vm.initialize(['ruby.wasm', '-I/stub', '-I/gem/lib', '-EUTF-8', '-e_=0'])
 
   vm.printVersion()
   vm.eval(`
     ENV['GEM_HOME'] = '/src/bundle/ruby/3.2.0+1'
-    require 'js'
-    require 'json/pure'
-    require_relative '/src/bormashino.rb'
+    # workaround
+    require 'rack'
+    Rack::Response
+  `)
+  vm.eval(`
     require_relative '/src/bootstrap.rb'
   `)
 
   requestToServer('get', currentPath(), '', currentPath())
+  router.always(() => requestToServer('get', currentPath(), '', currentPath()))
 }
 
 main()

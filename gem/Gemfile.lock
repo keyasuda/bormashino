@@ -1,15 +1,5 @@
-GIT
-  remote: https://github.com/rubyist/guard-rake.git
-  revision: 3138496c512753bcbc83d13af08b7b5ad0538ee7
-  ref: 3138496c512753bcbc83d13af08b7b5ad0538ee7
-  specs:
-    guard-rake (1.1.0)
-      guard
-      guard-shell
-      rake
-
 PATH
-  remote: ../gem
+  remote: .
   specs:
     bormashino (0.1.0)
       json_pure (~> 2.6, >= 2.6.1)
@@ -51,9 +41,6 @@ GEM
     guard-rubocop (1.5.0)
       guard (~> 2.0)
       rubocop (< 2.0)
-    guard-shell (0.7.2)
-      guard (>= 2.0.0)
-      guard-compat (~> 1.0)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     json_pure (2.6.1)
@@ -83,7 +70,7 @@ GEM
     rb-fsevent (0.11.1)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    regexp_parser (2.3.0)
+    regexp_parser (2.3.1)
     rexml (3.2.5)
     rspec (3.11.0)
       rspec-core (~> 3.11.0)
@@ -113,7 +100,7 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.7.0, < 2.0)
-    rubocop-rspec (2.9.0)
+    rubocop-rspec (2.10.0)
       rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.4)
@@ -136,10 +123,11 @@ DEPENDENCIES
   bormashino!
   fablicop
   guard
-  guard-rake!
   guard-rspec
   guard-rubocop
-  rspec (>= 3.0.0)
+  rake (~> 13.0)
+  rspec (~> 3.0)
+  rubocop (~> 1.7)
 
 BUNDLED WITH
    2.4.0.dev
