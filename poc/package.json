@@ -10,10 +10,7 @@
     "build": "parcel build"
   },
   "dependencies": {
-    "@wasmer/wasi": "0.12.0",
-    "@wasmer/wasmfs": "^0.12.0",
-    "html5-history-router": "^1.1.0",
-    "ruby-head-wasm-wasi": "^0.3.0",
+    "bormashino": "file:../npm",
     "todomvc-app-css": "^2.4.2"
   }
 }
