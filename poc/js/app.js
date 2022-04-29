@@ -16,6 +16,8 @@ const main = async () => {
   const currentPath = () => location.href.replace(location.origin, '')
   RubyApplication.request('get', currentPath())
   RubyApplication.mount()
+
+  window.bormashino = RubyApplication
 }
 
 main()

@@ -3,7 +3,7 @@ import { WasmFs } from '@wasmer/wasmfs'
 import { RubyVM } from 'ruby-head-wasm-wasi/dist/index.js'
 import { Router } from 'html5-history-router'
 
-const router = new Router()
+export const router = new Router()
 const vm = new RubyVM()
 
 const currentPath = () => location.href.replace(location.origin, '')
@@ -70,19 +70,6 @@ const hookTransitionElements = () => {
       }
     })
   })
-
-  document
-    .querySelectorAll('[data-bormashino-event2transition]')
-    .forEach((e) => {
-      const def = JSON.parse(
-        e.attributes['data-bormashino-event2transition'].value
-      )
-      e.addEventListener(
-        def.event,
-        () => router.pushState(def.destination),
-        false
-      )
-    })
 }
 
 export const initVm = async (

@@ -8,7 +8,7 @@
         type="checkbox"
         name="completed"
         <% if todo.completed %>checked<% end %>>
-      <label data-bormashino-event2transition='<%= {event: 'dblclick', destination: "#{request.path_info}?edit=#{todo.id}"}.to_json %>'><%= todo.title %></label>
+      <label ondblclick='bormashino.router.pushState(<%= "#{request.path_info}?edit=#{todo.id}".to_json %>)'><%= todo.title %></label>
     </form>
 
     <form action="/todos/<%= todo.id %>" method="delete">
