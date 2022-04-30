@@ -1,5 +1,5 @@
 {
-  "name": "@keyasuda/bormashino",
+  "name": "bormashino",
   "description": "The package to build SPAs with Ruby",
   "homepage": "https://github.com/keyasuda/bormashino",
   "version": "0.1.0",
@@ -19,8 +19,5 @@
     "@wasmer/wasmfs": "^0.12.0",
     "html5-history-router": "^1.1.0",
     "ruby-head-wasm-wasi": "^0.3.0"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   }
 }
