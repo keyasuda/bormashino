@@ -37,11 +37,12 @@ const formSubmitHook = (e) => {
   const payload = new URLSearchParams(new FormData(form)).toString()
 
   request(method, new URL(action).pathname, payload)
+  return false
 }
 
 const formInputEventHook = (e, form) => {
   e.preventDefault()
-  form.dispatchEvent(new Event('submit'))
+  form.dispatchEvent(new Event('submit', { cancelable: true }))
 }
 
 const aClickEventHook = (e) => {
