@@ -16,6 +16,7 @@ Ruby で SPA(single page application)を構築するためのパッケージで�
 ## 使用例
 
 - [TodoMVC 移植](https://github.com/keyasuda/bormashino-todomvc)
+- [テンプレート](https://github.com/keyasuda/bormashino-app-template)
 
 ## 利用方法
 
