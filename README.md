@@ -21,6 +21,23 @@ Ruby で SPA(single page application)を構築するためのパッケージで�
 
 TBD
 
+## リリース
+
+### rubygem
+
+```bash
+$ cd gem
+$ bundle exec rake build
+$ gem push pkg/bormashino-XXX.gem
+```
+
+### npm package
+
+```bash
+$ cd npm
+$ npm publish
+```
+
 ## ライセンス
 
 [MIT](https://choosealicense.com/licenses/mit/)
