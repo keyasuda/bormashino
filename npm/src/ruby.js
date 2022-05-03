@@ -23,10 +23,12 @@ export const request = (
 }
 
 // JSでの値をRubyでの値に変換する
+// JS obj -> JSON -> url-encoded str -> (vm.eval) -> JSON -> Ruby obj
 const toRbValue = (v) => {
-  const utils = vm.eval('Bormashino::Utils')
-  const input = encodeURIComponent(JSON.stringify(v))
-  return utils.call('to_rb_value', vm.eval("'" + input + "'"))
+  const input = "'" + encodeURIComponent(JSON.stringify(v)) + "'"
+  return vm
+    .eval('JSON')
+    .call('parse', vm.eval('CGI').call('unescape', vm.eval(input)))
 }
 
 const formSubmitHook = (e) => {
@@ -119,6 +121,8 @@ export const initVm = async (
     # workaround
     require 'rack'
     Rack::Response
+    require 'cgi'
+    require 'json/pure'
   `)
 
   return vm
