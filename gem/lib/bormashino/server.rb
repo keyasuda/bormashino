@@ -12,7 +12,7 @@ module Bormashino
 
       @app.call({
                   'HTTP_HOST' => 'example.com:0',
-                  'REQUEST_METHOD' => method,
+                  'REQUEST_METHOD' => method.upcase,
                   'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
                   'QUERY_STRING' => u.query,
                   'PATH_INFO' => u.path,
