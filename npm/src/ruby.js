@@ -1,9 +1,8 @@
 import { WASI } from '@wasmer/wasi'
 import { WasmFs } from '@wasmer/wasmfs'
 import { RubyVM } from 'ruby-head-wasm-wasi/dist/index.js'
-import { Router } from 'html5-history-router'
+import { router, hookTransitionElements } from './htmlHandlers.js'
 
-export const router = new Router()
 const vm = new RubyVM()
 
 const currentPath = () => location.href.replace(location.origin, '')
@@ -29,50 +28,6 @@ const toRbValue = (v) => {
   return vm
     .eval('JSON')
     .call('parse', vm.eval('CGI').call('unescape', vm.eval(input)))
-}
-
-const formSubmitHook = (e) => {
-  e.preventDefault()
-  const form = e.target
-  const action = form.action
-  const method = form.attributes['method'].value
-  const payload = new URLSearchParams(new FormData(form)).toString()
-
-  request(method, new URL(action).pathname, payload)
-  return false
-}
-
-const formInputEventHook = (e, form) => {
-  e.preventDefault()
-  form.dispatchEvent(new Event('submit', { cancelable: true }))
-}
-
-const aClickEventHook = (e) => {
-  e.preventDefault()
-  router.pushState(e.target.href)
-}
-
-const hookTransitionElements = () => {
-  document.querySelectorAll('a').forEach((a) => {
-    if (a.href.startsWith(location.origin)) {
-      a.addEventListener('click', aClickEventHook, false)
-    }
-  })
-
-  document.querySelectorAll('form').forEach((f) => {
-    f.addEventListener('submit', formSubmitHook, false)
-
-    f.querySelectorAll('[data-bormashino-submit-on]').forEach((i) => {
-      const eventAttr = i.attributes['data-bormashino-submit-on']
-      if (eventAttr) {
-        i.addEventListener(
-          eventAttr.value,
-          (e) => formInputEventHook(e, f),
-          false
-        )
-      }
-    })
-  })
 }
 
 export const initVm = async (
@@ -152,7 +107,7 @@ export const applyServerResult = (serverRet, target) => {
   switch (ret[0]) {
     case 200:
       target.innerHTML = ret[2][0]
-      hookTransitionElements()
+      hookTransitionElements(target, request)
       // フォーカスを当て直す
       if (focusedPos > -1) {
         const target = Array.from(

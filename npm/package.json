@@ -12,7 +12,10 @@
   "license": "MIT",
   "repository": "git://github.com/keyasuda/bormashino.git",
   "devDependencies": {
-    "jest": "^28.0.2"
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "jest": "^28.0.2",
+    "jest-environment-jsdom": "^28.0.2"
   },
   "dependencies": {
     "@wasmer/wasi": "0.12.0",
