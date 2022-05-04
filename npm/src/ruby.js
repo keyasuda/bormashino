@@ -1,12 +1,14 @@
 import { WASI } from '@wasmer/wasi'
 import { WasmFs } from '@wasmer/wasmfs'
 import { RubyVM } from 'ruby-head-wasm-wasi/dist/index.js'
-import { router, hookTransitionElements } from './htmlHandlers.js'
+import { router as hr, hookTransitionElements } from './htmlHandlers.js'
+import { applyServerResult } from './applyServerResult.js'
 
 const vm = new RubyVM()
 
 const currentPath = () => location.href.replace(location.origin, '')
 
+export const router = hr
 export const mount = () => router.always(() => request('get', currentPath()))
 
 export const request = (
@@ -18,7 +20,8 @@ export const request = (
   const target = document.querySelector('#bormashino-application')
 
   const ret = requestToServer(method, path, payload, referer)
-  applyServerResult(ret, target)
+  if (applyServerResult(JSON.parse(ret.toJS()), target, router))
+    hookTransitionElements(target, request)
 }
 
 // JSでの値をRubyでの値に変換する
@@ -94,37 +97,4 @@ const requestToServer = (method, path, payload, referer) => {
   )
 
   return ret
-}
-
-export const applyServerResult = (serverRet, target) => {
-  const ret = JSON.parse(serverRet.toJS())
-
-  // 現在フォーカスが当たっている要素のインデックスを取得
-  const focusedPos = Array.from(
-    document.querySelectorAll('input,textarea,button')
-  ).indexOf(document.activeElement)
-
-  switch (ret[0]) {
-    case 200:
-      target.innerHTML = ret[2][0]
-      hookTransitionElements(target, request)
-      // フォーカスを当て直す
-      if (focusedPos > -1) {
-        const target = Array.from(
-          document.querySelectorAll('input,textarea,button')
-        )[focusedPos]
-        if (target) target.focus()
-      }
-      break
-
-    case 302:
-      const loc = new URL(ret[1]['Location'])
-      const path = loc.pathname + loc.search
-      router.pushState(path)
-      break
-
-    default:
-      console.error(ret)
-      target.innerHTML = ret[2][0]
-  }
 }
