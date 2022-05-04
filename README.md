@@ -1,5 +1,9 @@
 # Bormaŝino
 
+[![CodeQL](https://github.com/keyasuda/bormashino/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/keyasuda/bormashino/actions/workflows/codeql-analysis.yml)
+[![Gem](https://github.com/keyasuda/bormashino/actions/workflows/gem.yml/badge.svg)](https://github.com/keyasuda/bormashino/actions/workflows/gem.yml)
+[![NPM](https://github.com/keyasuda/bormashino/actions/workflows/npm.js.yml/badge.svg)](https://github.com/keyasuda/bormashino/actions/workflows/npm.js.yml)
+
 ## 概要
 
 Ruby で SPA(single page application)を構築するためのパッケージです。
@@ -20,7 +24,7 @@ Ruby で SPA(single page application)を構築するためのパッケージで�
 
 ## 利用方法
 
-TBD
+[テンプレート](https://github.com/keyasuda/bormashino-app-template)をご利用下さい。
 
 ## リリース
 
