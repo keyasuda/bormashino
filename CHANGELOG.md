@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.1.2] - 2022-05-04
+
+- enhance test coverage
+
 ## [0.1.1] - 2022-05-01
 
 - fix behavior of form submission event on Firefox
