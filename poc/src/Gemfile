@@ -1,6 +1,0 @@
-# SPA用gem
-source 'https://rubygems.org'
-
-gem 'json_pure', '~> 2.6', '>= 2.6.1'
-gem 'ruby2_keywords', '0.0.4'
-gem 'sinatra'
