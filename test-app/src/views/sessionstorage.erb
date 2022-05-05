@@ -1,0 +1,12 @@
+<p>length: <%= @session_storage.length %></p>
+<ul>
+  <% @session_storage.length.times do |i| %>
+    <li>
+      <%= @session_storage.key(i) %> <%= @session_storage.get_item(@session_storage.key(i)) %>
+    </li>
+  <% end %>
+</ul>
+<p>get_item key3: <%= @session_storage.get_item('key3') %></p>
+
+<a href='/ss_remove_item'>remove_item</a>
+<a href='/ss_clear'>clear</a>
