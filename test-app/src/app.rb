@@ -51,4 +51,22 @@ class App < Sinatra::Base
     @local_storage.clear
     @local_storage.length.to_s
   end
+
+  get '/sessionstorage' do
+    @session_storage = Bormashino::SessionStorage.instance
+    5.times.each { |i| @session_storage.set_item("key#{i}", "value#{i}") }
+    erb :sessionstorage
+  end
+
+  get '/ss_remove_item' do
+    @session_storage = Bormashino::SessionStorage.instance
+    @session_storage.remove_item('key2')
+    @session_storage.length.to_s
+  end
+
+  get '/ss_clear' do
+    @session_storage = Bormashino::SessionStorage.instance
+    @session_storage.clear
+    @session_storage.length.to_s
+  end
 end
