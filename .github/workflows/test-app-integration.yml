@@ -19,7 +19,7 @@ jobs:
           node-version: 16.x
 
       - name: Set up Chrome
-        uses: browser-actions/setup-chrome@latest
+        uses: keyasuda/setup-chrome@latest
 
       - name: npm install on npm/
         run: (cd npm && npm i)
