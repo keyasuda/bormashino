@@ -29,6 +29,18 @@ class MockApp < Sinatra::Base
 end
 
 RSpec.describe Bormashino::Server do
+  describe 'mount check' do
+    subject { described_class.mounted? }
+
+    it { is_expected.to be false }
+
+    describe 'after mounted' do
+      before { described_class.mount(MockApp) }
+
+      it { is_expected.to be true }
+    end
+  end
+
   describe 'mount' do
     subject { described_class.instance_variable_get(:@app) }
 

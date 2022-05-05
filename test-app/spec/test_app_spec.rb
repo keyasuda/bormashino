@@ -40,4 +40,13 @@ RSpec.describe 'test_app', type: :feature do
 
     it { is_expected.to have_text('2nd form has submitted') }
   end
+
+  describe 'fetch api' do
+    before do
+      click_link 'fetch test'
+      sleep 1
+    end
+
+    it { is_expected.to have_text('{"status"=>"200", "payload"=>"fetched text\n"}') }
+  end
 end
