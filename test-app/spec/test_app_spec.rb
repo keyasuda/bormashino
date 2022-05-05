@@ -49,4 +49,34 @@ RSpec.describe 'test_app', type: :feature do
 
     it { is_expected.to have_text('{"status"=>"200", "payload"=>"fetched text\n"}') }
   end
+
+  describe 'LocalStorage' do
+    before do
+      click_link 'localstorage test'
+      sleep 1
+    end
+
+    it { is_expected.to have_text('length: 5') }
+    it { is_expected.to have_text('get_item key3: value3') }
+
+    5.times { |i| it { is_expected.to have_text("key#{i} value#{i}") } }
+
+    describe 'remove_item' do
+      before do
+        click_link 'remove_item'
+        sleep 1
+      end
+
+      it { is_expected.to have_text('4') }
+    end
+
+    describe 'clear' do
+      before do
+        click_link 'clear'
+        sleep 1
+      end
+
+      it { is_expected.to have_text('0') }
+    end
+  end
 end
