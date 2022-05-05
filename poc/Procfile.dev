@@ -1,2 +1,0 @@
-parcel: npm run dev
-guard: bundle exec guard
