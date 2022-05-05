@@ -3,6 +3,10 @@ require 'stringio'
 
 module Bormashino
   module Server
+    def self.mounted?
+      !@app.nil?
+    end
+
     def self.mount(app_class)
       @app = app_class.new
     end

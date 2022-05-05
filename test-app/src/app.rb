@@ -1,10 +1,13 @@
+require 'js'
 require 'sinatra/base'
+require 'bormashino/fetch'
 
 class App < Sinatra::Base
   set :protection, false
 
   get '/' do
     @world = 'world'
+
     erb :index
   end
 
@@ -18,5 +21,15 @@ class App < Sinatra::Base
 
   delete '/destroy' do
     '2nd form has submitted'
+  end
+
+  get '/fetch' do
+    Bormashino::Fetch.new(resource: '/fetch.txt', resolved_to: '/fetched').run
+
+    'initiated'
+  end
+
+  post '/fetched' do
+    params.inspect
   end
 end
