@@ -1,6 +1,7 @@
 # Bormaŝino
 
 [![CodeQL](https://github.com/keyasuda/bormashino/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/keyasuda/bormashino/actions/workflows/codeql-analysis.yml)
+[![test-app integration test](https://github.com/keyasuda/bormashino/actions/workflows/test-app-integration.yml/badge.svg)](https://github.com/keyasuda/bormashino/actions/workflows/test-app-integration.yml)
 [![Gem](https://github.com/keyasuda/bormashino/actions/workflows/gem.yml/badge.svg)](https://github.com/keyasuda/bormashino/actions/workflows/gem.yml)
 [![NPM](https://github.com/keyasuda/bormashino/actions/workflows/npm.js.yml/badge.svg)](https://github.com/keyasuda/bormashino/actions/workflows/npm.js.yml)
 

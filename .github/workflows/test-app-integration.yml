@@ -1,0 +1,41 @@
+name: Integration test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0-preview1
+          bundler-cache: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@latest
+
+      - name: npm install on npm/
+        run: (cd npm && npm i)
+
+      - name: setup test-app
+        run: |
+          cd test-app
+          npm i
+          bundle
+          (cd src && bundle)
+          bundle exec rake bormashino:download
+          bundle exec rake
+
+      - name: test
+        run: |
+          cd test-app
+          nohup npm run dev &
+          sleep 10
+          bundle exec rspec
