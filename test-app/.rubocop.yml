@@ -1,0 +1,42 @@
+inherit_gem:
+  fablicop:
+    - "config/.base_rubocop.yml"
+
+AllCops:
+  Exclude:
+    - "src/bundle/**/*"
+    - "node_modules/**/*"
+    - "head-wasm32-unknown-wasi-full-js/**/*"
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+Rails/Output:
+  AutoCorrect: false
+
+Metrics/AbcSize:
+  Max: 24
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/ImplicitSubject:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Lint/EmptyClass:
+  Enabled: false
+
+Rails/RakeEnvironment:
+  Enabled: false

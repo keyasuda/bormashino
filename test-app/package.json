@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "buffer": "^6.0.3",
+    "parcel": "^2.4.1",
+    "prettier": "^2.6.2"
+  },
+  "source": "js/index.html",
+  "scripts": {
+    "dev": "parcel --port 5000 --dist-dir tmp/"
+  },
+  "dependencies": {
+    "bormashino": "file:../npm"
+  }
+}
