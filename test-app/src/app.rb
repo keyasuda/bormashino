@@ -1,6 +1,7 @@
 require 'js'
 require 'sinatra/base'
 require 'bormashino/fetch'
+require 'bormashino/local_storage'
 
 class App < Sinatra::Base
   set :protection, false
@@ -31,5 +32,23 @@ class App < Sinatra::Base
 
   post '/fetched' do
     params.inspect
+  end
+
+  get '/localstorage' do
+    @local_storage = Bormashino::LocalStorage.instance
+    5.times.each { |i| @local_storage.set_item("key#{i}", "value#{i}") }
+    erb :localstorage
+  end
+
+  get '/ls_remove_item' do
+    @local_storage = Bormashino::LocalStorage.instance
+    @local_storage.remove_item('key2')
+    @local_storage.length.to_s
+  end
+
+  get '/ls_clear' do
+    @local_storage = Bormashino::LocalStorage.instance
+    @local_storage.clear
+    @local_storage.length.to_s
   end
 end

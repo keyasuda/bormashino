@@ -1,0 +1,12 @@
+<p>length: <%= @local_storage.length %></p>
+<ul>
+  <% @local_storage.length.times do |i| %>
+    <li>
+      <%= @local_storage.key(i) %> <%= @local_storage.get_item(@local_storage.key(i)) %>
+    </li>
+  <% end %>
+</ul>
+<p>get_item key3: <%= @local_storage.get_item('key3') %></p>
+
+<a href='/ls_remove_item'>remove_item</a>
+<a href='/ls_clear'>clear</a>
