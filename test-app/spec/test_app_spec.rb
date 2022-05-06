@@ -109,4 +109,16 @@ RSpec.describe 'test_app', type: :feature do
       it { is_expected.to have_text('0') }
     end
   end
+
+  describe 'bormashino:updated event' do
+    before_event = nil
+    subject { page.find(:css, '#bormashino-updated-event').text }
+
+    before do
+      before_event = page.find(:css, '#bormashino-updated-event').text
+      click_link 'link'
+    end
+
+    it { is_expected.not_to eq before_event }
+  end
 end

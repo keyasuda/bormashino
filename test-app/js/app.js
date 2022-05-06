@@ -13,6 +13,13 @@ const main = async () => {
   vm.printVersion()
   vm.eval(`require_relative '/src/bootstrap.rb'`)
 
+  document
+    .querySelector('#bormashino-application')
+    .addEventListener('bormashino:updated', (e) => {
+      document.querySelector('#bormashino-updated-event').innerHTML =
+        'dispatched: ' + Number(new Date())
+    })
+
   const currentPath = () => location.href.replace(location.origin, '')
   RubyApplication.request('get', currentPath())
   RubyApplication.mount()
