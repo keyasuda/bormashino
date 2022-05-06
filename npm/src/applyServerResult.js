@@ -15,6 +15,9 @@ export const applyServerResult = (src, target, router) => {
         )[focusedPos]
         if (target) target.focus()
       }
+      // 更新イベントを発生させる
+      target.dispatchEvent(new Event('bormashino:updated'))
+
       return true
 
     case 302:
