@@ -8,12 +8,14 @@ export const router = new Router()
 import { applyServerResult } from './applyServerResult.js'
 
 describe('applyServerResult', () => {
-  let target, content, ret
+  let target, content, ret, updateEventListener
   beforeEach(() => {
     target = document.createElement('div')
     target.innerHTML =
       '<div>content<input type="text" name="i1" value=""></div>'
     target.querySelector('input').focus()
+    updateEventListener = jest.fn()
+    target.addEventListener('bormashino:updated', updateEventListener)
   })
 
   describe('200', () => {
@@ -33,6 +35,10 @@ describe('applyServerResult', () => {
     it('returns true', () => {
       expect(ret).toEqual(true)
     })
+
+    it('fires bormashino:updated', () => {
+      expect(updateEventListener).toBeCalled()
+    })
   })
 
   describe('302 relative location', () => {
@@ -47,6 +53,10 @@ describe('applyServerResult', () => {
 
     it('returns true', () => {
       expect(ret).toEqual(false)
+    })
+
+    it('doesnt fire bormashino:updated', () => {
+      expect(updateEventListener).not.toBeCalled()
     })
   })
 
@@ -81,6 +91,10 @@ describe('applyServerResult', () => {
 
     it('returns true', () => {
       expect(ret).toEqual(true)
+    })
+
+    it('doesnt fire bormashino:updated', () => {
+      expect(updateEventListener).not.toBeCalled()
     })
   })
 })
