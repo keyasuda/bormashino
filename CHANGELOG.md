@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [0.1.3] - 2022-05-07
+
+- add bormashino:updated event
+- add <head> updating method
+
 ## [0.1.2] - 2022-05-04
 
 - enhance test coverage
