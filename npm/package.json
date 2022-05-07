@@ -5,7 +5,7 @@
   "version": "0.1.2",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest src/",
+    "test": "jest --notify src/",
     "test:watch": "npm test -- --watch"
   },
   "author": "Kenichiro Yasuda",
@@ -15,7 +15,8 @@
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
     "jest": "^28.0.2",
-    "jest-environment-jsdom": "^28.0.2"
+    "jest-environment-jsdom": "^28.0.2",
+    "node-notifier": "^10.0.1"
   },
   "dependencies": {
     "@wasmer/wasi": "0.12.0",
