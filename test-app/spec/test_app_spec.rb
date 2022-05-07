@@ -10,9 +10,15 @@ RSpec.describe 'test_app', type: :feature do
   end
 
   describe 'initialized app' do
-    subject { page.find(:css, 'h1') }
+    describe 'body' do
+      subject { page.find(:css, 'h1') }
 
-    it { is_expected.to have_text('ruby appが初期化されました。') }
+      it { is_expected.to have_text('ruby appが初期化されました。') }
+    end
+
+    describe 'head' do
+      it { is_expected.to have_title('updated title from index.erb') }
+    end
   end
 
   describe 'GET link' do

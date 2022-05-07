@@ -39,6 +39,73 @@ describe('applyServerResult', () => {
     it('fires bormashino:updated', () => {
       expect(updateEventListener).toBeCalled()
     })
+
+    describe('updating head', () => {
+      let head
+      beforeEach(() => {
+        head = document.querySelector('head')
+        const title = document.createElement('title')
+        title.innerHTML = 'initial title'
+        head.appendChild(title)
+
+        applyServerResult(
+          [
+            200,
+            {},
+            [
+              '<div>body</div><template class="bormashino-head"><title>new title</title><meta content="foo"></template>',
+            ],
+          ],
+          target,
+          router
+        )
+      })
+
+      it('updates title', () => {
+        expect(head.querySelectorAll('title').length).toEqual(1)
+        expect(head.querySelector('title').innerHTML).toEqual('new title')
+      })
+
+      it('adds new meta', () => {
+        expect(head.querySelector('meta').getAttribute('content')).toEqual(
+          'foo'
+        )
+      })
+
+      it('wont put head into body', () => {
+        expect(target.querySelectorAll('head').length).toEqual(0)
+      })
+
+      describe('2nd update', () => {
+        beforeEach(() => {
+          applyServerResult(
+            [
+              200,
+              {},
+              [
+                '<div>body></div><template class="bormashino-head"><title>new title 2</title><meta content="bar"><meta content="bar2"></template>',
+              ],
+            ],
+            target,
+            router
+          )
+          head = document.querySelector('head')
+        })
+
+        it('updates title', () => {
+          expect(head.querySelectorAll('title').length).toEqual(1)
+          expect(head.querySelector('title').innerHTML).toEqual('new title 2')
+        })
+
+        it('removes old meta', () => {
+          expect(head.querySelectorAll('meta[content="foo"]').length).toEqual(0)
+        })
+
+        it('adds new metas', () => {
+          expect(head.querySelectorAll('meta').length).toEqual(2)
+        })
+      })
+    })
   })
 
   describe('302 relative location', () => {
