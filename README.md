@@ -5,29 +5,29 @@
 [![Gem](https://github.com/keyasuda/bormashino/actions/workflows/gem.yml/badge.svg)](https://github.com/keyasuda/bormashino/actions/workflows/gem.yml)
 [![NPM](https://github.com/keyasuda/bormashino/actions/workflows/npm.js.yml/badge.svg)](https://github.com/keyasuda/bormashino/actions/workflows/npm.js.yml)
 
-## 概要
+## Overview
 
-Ruby で SPA(single page application)を構築するためのパッケージです。
+A package to build SPAs (Single Page Applications) with Ruby.
 
-## 依存関係
+## Dependencies
 
-主に以下のプロダクトに依存しています。
+Mainly this package depends on these:
 
 - [ruby.wasm](https://github.com/ruby/ruby.wasm)
 - [wasi-vfs](https://github.com/kateinoigakukun/wasi-vfs)
 - [Sinatra](http://sinatrarb.com/)
 - [html5-history-router](https://github.com/BusinessDuck/html5-history-router)
 
-## 使用例
+## Examples
 
-- [TodoMVC 移植](https://github.com/keyasuda/bormashino-todomvc)
-- [テンプレート](https://github.com/keyasuda/bormashino-app-template)
+- [a port of TodoMVC](https://github.com/keyasuda/bormashino-todomvc)
+- [app template](https://github.com/keyasuda/bormashino-app-template)
 
-## 利用方法
+## How to use
 
-[テンプレート](https://github.com/keyasuda/bormashino-app-template)をご利用下さい。
+See [app template](https://github.com/keyasuda/bormashino-app-template).
 
-## リリース
+## Releasing
 
 ### rubygem
 
@@ -44,6 +44,6 @@ $ cd npm
 $ npm publish
 ```
 
-## ライセンス
+## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
