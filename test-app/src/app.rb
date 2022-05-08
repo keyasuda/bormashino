@@ -25,7 +25,11 @@ class App < Sinatra::Base
   end
 
   get '/fetch' do
-    Bormashino::Fetch.new(resource: '/fetch.txt', resolved_to: '/fetched').run
+    Bormashino::Fetch.new(
+      resource: '/fetch.txt',
+      resolved_to: '/fetched',
+      options: { param1: 'value1', param2: 'value2' },
+    ).run
 
     'initiated'
   end
