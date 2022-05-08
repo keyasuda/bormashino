@@ -1,18 +1,20 @@
 require 'js'
 require_relative 'ext/js'
+require 'cgi'
 
 module Bormashino
   class Fetch
-    attr_accessor :resource, :init, :resolved_to
+    attr_accessor :resource, :init, :resolved_to, :options
 
-    def initialize(resource:, resolved_to:, init: {})
+    def initialize(resource:, resolved_to:, init: {}, options: {})
       @resource = resource
       @init = init
       @resolved_to = resolved_to
+      @options = options
     end
 
     def run
-      raise 'No app is mounted' unless Bormashino::Server.mounted?
+      raise 'No mounted apps' unless Bormashino::Server.mounted?
 
       # rubocop:disable Style::DocumentDynamicEvalDefinition
       JS.eval <<-ENDOFEVAL
@@ -25,7 +27,8 @@ module Bormashino
               'post',
               #{@resolved_to.to_json},
               'status=' + r.status +
-              '&payload=' + encodeURIComponent(t)
+              '&payload=' + encodeURIComponent(t) +
+              '&options=' + #{CGI.escape(@options.to_json).to_json}
             )
           })
         })

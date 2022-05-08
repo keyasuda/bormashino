@@ -53,7 +53,7 @@ RSpec.describe 'test_app', type: :feature do
       sleep 1
     end
 
-    it { is_expected.to have_text('{"status"=>"200", "payload"=>"fetched text\n"}') }
+    it { is_expected.to have_text('{"status"=>"200", "payload"=>"fetched text\n", "options"=>"{\"param1\":\"value1\",\"param2\":\"value2\"}"}') }
   end
 
   describe 'LocalStorage' do
