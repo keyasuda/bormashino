@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
+rm -rf .parcel-cache
 foreman start -f Procfile.dev

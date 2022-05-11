@@ -23,30 +23,63 @@ beforeEach(() => {
 describe('formSubmitHook', () => {
   let request
 
-  beforeEach(() => {
-    const form = document.createElement('form')
-    form.method = 'put'
-    form.action = '/action'
-    form.innerHTML =
-      '<input type="hidden" name="param1" value="value1">' +
-      '<input type="hidden" name="param2" value="value2">'
-    event.target = form
+  describe('put form', () => {
+    beforeEach(() => {
+      const form = document.createElement('form')
+      form.method = 'put'
+      form.action = '/action'
+      form.innerHTML =
+        '<input type="hidden" name="param1" value="value1">' +
+        '<input type="hidden" name="param2" value="value2">'
+      event.target = form
 
-    request = jest.fn()
+      request = jest.fn()
 
-    formSubmitHook(event, request)
+      formSubmitHook(event, request)
+    })
+
+    it('calls preventDefault', () => {
+      expect(event.preventDefault).toBeCalled()
+    })
+
+    it('requests with form content', () => {
+      expect(request).toBeCalledWith(
+        'put',
+        '/action',
+        'param1=value1&param2=value2'
+      )
+    })
   })
 
-  it('calls preventDefault', () => {
-    expect(event.preventDefault).toBeCalled()
-  })
+  describe('get form', () => {
+    beforeEach(() => {
+      const form = document.createElement('form')
+      form.method = 'get'
+      form.action = '/action'
+      form.innerHTML =
+        '<input type="hidden" name="param1" value="value1">' +
+        '<input type="hidden" name="param2" value="バリュー2">'
+      event.target = form
 
-  it('requests with form content', () => {
-    expect(request).toBeCalledWith(
-      'put',
-      '/action',
-      'param1=value1&param2=value2'
-    )
+      request = jest.fn()
+
+      formSubmitHook(event, request)
+    })
+
+    it('calls preventDefault', () => {
+      expect(event.preventDefault).toBeCalled()
+    })
+
+    it('wont submit the form like post forms', () => {
+      expect(request).not.toBeCalled()
+    })
+
+    it('pushstates with form content', () => {
+      expect(location.href).toEqual(
+        'https://jestjs.io/action?param1=value1&param2=' +
+          encodeURIComponent('バリュー2')
+      )
+    })
   })
 })
 
