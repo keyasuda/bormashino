@@ -8,7 +8,11 @@ export const formSubmitHook = (e, request) => {
   const method = form.attributes['method'].value
   const payload = new URLSearchParams(new FormData(form)).toString()
 
-  request(method, new URL(action).pathname, payload)
+  if (method.toLowerCase() == 'get') {
+    router.pushState(action + '?' + payload)
+  } else {
+    request(method, new URL(action).pathname, payload)
+  }
 }
 
 export const formInputEventHook = (e, form) => {

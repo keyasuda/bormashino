@@ -16,6 +16,10 @@ class App < Sinatra::Base
     'link clicked'
   end
 
+  get '/get-form-submit' do
+    "You GET: #{params}"
+  end
+
   put '/form-submit' do
     "You put: #{params[:value1]}"
   end
