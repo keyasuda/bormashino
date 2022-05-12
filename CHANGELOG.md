@@ -1,3 +1,7 @@
+## [0.1.5] - 2022-05-12
+
+- `form method="get"` will perform pushState
+
 ## [0.1.4] - 2022-05-08
 
 - add `options` to `Bormashino::Fetch.new`
