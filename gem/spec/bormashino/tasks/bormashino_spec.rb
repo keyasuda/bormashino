@@ -1,6 +1,7 @@
 require 'rake_helper'
 load 'bormashino/tasks/bormashino.rake'
 require 'tmpdir'
+require 'os'
 
 require 'pry'
 
@@ -19,7 +20,13 @@ RSpec.describe 'bormashino:*', rake: true do
     it 'downloads ruby.wasm and wasi_vfs' do
       task.invoke
 
-      expect(`file wasi-vfs`).to include 'ELF 64-bit LSB shared object, x86-64, version 1 (SYSV)'
+      case
+      when OS.linux?
+        expect(`file wasi-vfs`).to include 'ELF 64-bit LSB shared object, x86-64, version 1 (SYSV)'
+      when OS.mac?
+        expect(`file wasi-vfs`).to include 'Mach-O 64-bit executable arm64'
+      end
+      expect(`./wasi-vfs --version`).to include 'wasi-vfs-cli '
       expect(`file head-wasm32-unknown-wasi-full-js/usr/local/bin/ruby`).to include 'WebAssembly (wasm) binary module version 0x1 (MVP)'
     end
   end
