@@ -125,6 +125,7 @@ DEPENDENCIES
   guard
   guard-rspec
   guard-rubocop
+  pry
   rake (~> 13.0)
   rspec (~> 3.0)
   rubocop (~> 1.7)

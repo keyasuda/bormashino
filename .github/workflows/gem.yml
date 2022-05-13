@@ -1,9 +1,9 @@
-name: Gem
+name: Gem tests
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  rspec:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,3 +14,27 @@ jobs:
           bundler-cache: true
       - name: Run the default task
         run: (cd gem && bundle install && bundle exec rake)
+
+  rspec_rake_linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0-preview1
+          bundler-cache: true
+      - name: Run the default task
+        run: (cd gem && bundle install && bundle exec rspec --tag rake)
+
+  rspec_rake_macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0-preview1
+          bundler-cache: true
+      - name: Run the default task
+        run: (cd gem && bundle install && bundle exec rspec --tag rake)
