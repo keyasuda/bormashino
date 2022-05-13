@@ -24,7 +24,11 @@ RSpec.describe 'bormashino:*', rake: true do
       when OS.linux?
         expect(`file wasi-vfs`).to include 'ELF 64-bit LSB shared object, x86-64, version 1 (SYSV)'
       when OS.mac?
-        expect(`file wasi-vfs`).to include 'Mach-O 64-bit executable arm64'
+        if OS.host_cpu == 'x86_64'
+          expect(`file wasi-vfs`).to include 'Mach-O 64-bit executable x86_64'
+        else
+          expect(`file wasi-vfs`).to include 'Mach-O 64-bit executable arm64'
+        end
       end
       expect(`./wasi-vfs --version`).to include 'wasi-vfs-cli '
       expect(`file head-wasm32-unknown-wasi-full-js/usr/local/bin/ruby`).to include 'WebAssembly (wasm) binary module version 0x1 (MVP)'
