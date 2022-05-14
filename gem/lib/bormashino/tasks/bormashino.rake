@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'uri'
 require 'os'
+require 'digest/md5'
 
 RUBY_RELEASE = 'https://github.com/ruby/ruby.wasm/releases/download/2022-04-25-a/ruby-head-wasm32-unknown-wasi-full-js.tar.gz'.freeze
 WASI_VFS_RELEASE = 'https://github.com/kateinoigakukun/wasi-vfs/releases/download/v0.1.1/wasi-vfs-cli-x86_64-unknown-linux-gnu.zip'.freeze
@@ -53,7 +54,7 @@ namespace :bormashino do
 
   desc 'pack済みのruby.wasmのMD5を取りファイル名につけてコピーし、import用のJSを出力する'
   task :digest, [:destination] do |_, args|
-    digest = `md5sum tmp/ruby.wasm`.split.first
+    digest = Digest::MD5.file('tmp/ruby.wasm').hexdigest
     FileUtils.cp('tmp/ruby.wasm', "#{args[:destination]}/ruby.#{digest}.wasm")
     File.open(DIGEST, 'w') { |f|
       f.puts "export default rubyDigest = '#{digest}'
