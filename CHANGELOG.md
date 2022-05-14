@@ -1,3 +1,7 @@
+## [0.1.6] - 2022-05-14
+
+- macOS support (hopefully)
+
 ## [0.1.5] - 2022-05-12
 
 - `form method="get"` will perform pushState
