@@ -14,7 +14,7 @@ TMP = 'tmp'.freeze
 DIGEST = 'js/ruby-digest.js'.freeze
 
 namespace :bormashino do
-  desc 'ruby.wasm及びwasi-vfsをダウンロードする'
+  desc 'download ruby.wasm and wasi-vfs'
   task :download do
     system "curl -L #{RUBY_RELEASE} | tar xz"
     FileUtils.rm(File.join(RUBY_ROOT, '/usr/local/lib/libruby-static.a'))
@@ -36,7 +36,7 @@ namespace :bormashino do
     system 'chmod u+x wasi-vfs'
   end
 
-  desc 'wasi_vfsでアプリに使用するRubyスクリプト群を埋め込む'
+  desc 'embed ruby scripts with wasi-vfs'
   task :pack, [:additional_args] do |_, args|
     gem_dir = Gem::Specification.find_by_name('bormashino').gem_dir
 
@@ -52,7 +52,7 @@ namespace :bormashino do
     ].compact.join(' '))
   end
 
-  desc 'pack済みのruby.wasmのMD5を取りファイル名につけてコピーし、import用のJSを出力する'
+  desc 'add MD5 to packed ruby.wasm and write JS for importing'
   task :digest, [:destination] do |_, args|
     digest = Digest::MD5.file('tmp/ruby.wasm').hexdigest
     FileUtils.cp('tmp/ruby.wasm', "#{args[:destination]}/ruby.#{digest}.wasm")
@@ -62,7 +62,7 @@ namespace :bormashino do
     }
   end
 
-  desc '指定ディレクトリ中のdigest付きruby.wasmを削除する'
+  desc 'clean built ruby.wasm files'
   task :delete_wasms, [:target] do |_, args|
     Dir.glob(File.join(args[:target], 'ruby.*.wasm')).each { |f| FileUtils.rm(f) }
   end
