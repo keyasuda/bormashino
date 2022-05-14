@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'json_pure', '~> 2.6', '>= 2.6.1'
   spec.add_dependency 'sinatra', '~> 2.2'
   spec.add_dependency 'ruby2_keywords', '0.0.4'
+  spec.add_dependency 'os', '~> 1.1', '>= 1.1.4'
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html

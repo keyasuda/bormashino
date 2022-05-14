@@ -1,8 +1,13 @@
 require 'fileutils'
 require 'uri'
+require 'os'
+require 'digest/md5'
 
 RUBY_RELEASE = 'https://github.com/ruby/ruby.wasm/releases/download/2022-04-25-a/ruby-head-wasm32-unknown-wasi-full-js.tar.gz'.freeze
 WASI_VFS_RELEASE = 'https://github.com/kateinoigakukun/wasi-vfs/releases/download/v0.1.1/wasi-vfs-cli-x86_64-unknown-linux-gnu.zip'.freeze
+WASI_VFS_RELEASE_MAC_X86_64 = 'https://github.com/kateinoigakukun/wasi-vfs/releases/download/v0.1.1/wasi-vfs-cli-x86_64-apple-darwin.zip'.freeze
+WASI_VFS_RELEASE_MAC_ARM64 = 'https://github.com/kateinoigakukun/wasi-vfs/releases/download/v0.1.1/wasi-vfs-cli-aarch64-apple-darwin.zip'.freeze
+
 RUBY_ROOT = File.basename(URI(RUBY_RELEASE).path).split('.').first.sub('ruby-', '')
 WASI_VFS = './wasi-vfs'.freeze
 TMP = 'tmp'.freeze
@@ -15,7 +20,19 @@ namespace :bormashino do
     FileUtils.rm(File.join(RUBY_ROOT, '/usr/local/lib/libruby-static.a'))
     FileUtils.rm_rf(File.join(RUBY_ROOT, '/usr/local/include'))
 
-    system "curl -L '#{WASI_VFS_RELEASE}' | gzip -d > wasi-vfs"
+    case
+    when OS.linux?
+      system "curl -L '#{WASI_VFS_RELEASE}' | gzip -d > wasi-vfs"
+    when OS.mac?
+      if OS.host_cpu == 'x86_64'
+        system "curl -L -o wasi-vfs.zip '#{WASI_VFS_RELEASE_MAC_X86_64}'"
+      else
+        system "curl -L -o wasi-vfs.zip '#{WASI_VFS_RELEASE_MAC_ARM64}'"
+      end
+      system 'unzip wasi-vfs.zip'
+      system 'rm wasi-vfs.zip'
+    end
+
     system 'chmod u+x wasi-vfs'
   end
 
@@ -37,7 +54,7 @@ namespace :bormashino do
 
   desc 'pack済みのruby.wasmのMD5を取りファイル名につけてコピーし、import用のJSを出力する'
   task :digest, [:destination] do |_, args|
-    digest = `md5sum tmp/ruby.wasm`.split.first
+    digest = Digest::MD5.file('tmp/ruby.wasm').hexdigest
     FileUtils.cp('tmp/ruby.wasm', "#{args[:destination]}/ruby.#{digest}.wasm")
     File.open(DIGEST, 'w') { |f|
       f.puts "export default rubyDigest = '#{digest}'

@@ -15,3 +15,4 @@ gem 'fablicop', require: false
 gem 'guard'
 gem 'guard-rspec', require: false
 gem 'guard-rubocop'
+gem 'pry'

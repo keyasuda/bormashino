@@ -32,6 +32,9 @@ RSpec/ExampleLength:
 RSpec/MultipleExpectations:
   Enabled: false
 
+RSpec/DescribeClass:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 
