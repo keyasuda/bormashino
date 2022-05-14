@@ -3,7 +3,7 @@ name: Integration test
 on: [push, pull_request]
 
 jobs:
-  build:
+  app:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -39,3 +39,47 @@ jobs:
           nohup npm run dev &
           sleep 10
           bundle exec rspec
+
+  rake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0-preview1
+          bundler-cache: true
+
+      - name: setup test-app
+        run: |
+          cd test-app
+          bundle
+          (cd src && bundle)
+          bundle exec rake bormashino:download
+
+      - name: test
+        run: |
+          cd test-app
+          bundle exec rspec --tag rake
+
+  rake-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0-preview1
+          bundler-cache: true
+
+      - name: setup test-app
+        run: |
+          cd test-app
+          bundle
+          (cd src && bundle)
+          bundle exec rake bormashino:download
+
+      - name: test
+        run: |
+          cd test-app
+          bundle exec rspec --tag rake
