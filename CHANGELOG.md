@@ -1,3 +1,7 @@
+## [0.1.7] - 2022-05-15
+
+- translation
+
 ## [0.1.6] - 2022-05-14
 
 - macOS support (hopefully)
