@@ -1,6 +1,13 @@
 name: Gem tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [main]
+  schedule:
+    - cron: "20 15 * * 1"
 
 jobs:
   rspec:
@@ -12,8 +19,10 @@ jobs:
         with:
           ruby-version: 3.2.0-preview1
           bundler-cache: true
-      - name: Run the default task
-        run: (cd gem && bundle install && bundle exec rake)
+      - name: preparation
+        run: (cd gem && bundle update)
+      - name: test
+        run: (cd gem && bundle exec rake)
 
   rake:
     strategy:
@@ -27,5 +36,7 @@ jobs:
         with:
           ruby-version: 3.2.0-preview1
           bundler-cache: true
-      - name: Run the default task
-        run: (cd gem && bundle install && bundle exec rspec --tag rake)
+      - name: preparation
+        run: (cd gem && bundle update)
+      - name: test
+        run: (cd gem && bundle exec rspec --tag rake)
