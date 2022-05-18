@@ -1,6 +1,13 @@
 name: Integration test
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [main]
+  schedule:
+    - cron: "20 15 * * 1"
 
 jobs:
   app:
@@ -30,9 +37,9 @@ jobs:
       - name: setup test-app
         run: |
           cd test-app
-          npm i
-          bundle
-          (cd src && bundle)
+          npm update
+          bundle update
+          (cd src && bundle update)
           bundle exec rake bormashino:download
           bundle exec rake
 
@@ -59,8 +66,8 @@ jobs:
       - name: setup test-app
         run: |
           cd test-app
-          bundle
-          (cd src && bundle)
+          bundle update
+          (cd src && bundle update)
           bundle exec rake bormashino:download
 
       - name: test
