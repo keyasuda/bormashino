@@ -47,7 +47,7 @@ jobs:
         run: |
           cd test-app
           nohup npm run dev &
-          sleep 10
+          sleep 20
           bundle exec rspec
 
   rake:
