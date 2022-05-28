@@ -75,7 +75,7 @@ export const initVm = async (
   vm.initialize(initializeOption)
 
   vm.eval(`
-    ENV['GEM_HOME'] = '/src/bundle/ruby/3.2.0+1'
+    Gem.paths = {'GEM_PATH' => '/src/bundle/ruby/3.2.0+1'}
     # workaround
     require 'rack'
     Rack::Response
