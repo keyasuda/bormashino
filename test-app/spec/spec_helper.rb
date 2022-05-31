@@ -2,6 +2,7 @@ require 'json'
 require 'capybara/cuprite'
 require 'capybara/rspec'
 require 'pry'
+require 'rspec/retry'
 
 Capybara.default_driver = :cuprite
 Capybara.javascript_driver = :cuprite
@@ -112,4 +113,7 @@ RSpec.configure do |config|
   #   Kernel.srand config.seed
 
   config.filter_run_excluding rake: true
+
+  config.verbose_retry = true
+  config.display_try_failure_messages = true
 end
