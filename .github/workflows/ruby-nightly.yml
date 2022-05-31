@@ -46,7 +46,9 @@ jobs:
           rm -rf head-wasm32-unknown-wasi-full-js
           wget https://github.com/maiha/xq.cr/releases/download/v0.3.0/xq
           chmod u+x xq
-          curl -L https://github.com/ruby/ruby.wasm/releases/download/$(curl https://github.com/ruby/ruby.wasm/releases.atom | ./xq .title | tee | head -2 | tail -1 | sed -r 's/^.+>(.+?)<.+$/\1/g')/ruby-head-wasm32-unknown-wasi-full-js.tar.gz | tar xz
+          export RUBY_NIGHTLY=$(curl https://github.com/ruby/ruby.wasm/releases.atom | ./xq .title | tee | head -2 | tail -1 | sed -r 's/^.+>(.+?)<.+$/\1/g')
+          echo $RUBY_NIGHTLY
+          curl -L https://github.com/ruby/ruby.wasm/releases/download/${RUBY_NIGHTLY}/ruby-head-wasm32-unknown-wasi-full-js.tar.gz | tar xz
 
       - name: test
         run: |
