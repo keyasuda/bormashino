@@ -7,7 +7,7 @@ on:
     # The branches below must be a subset of the branches above
     branches: [main]
   schedule:
-    - cron: "10 15 * * *"
+    - cron: "10 16 * * *"
 
 jobs:
   app:
@@ -53,5 +53,5 @@ jobs:
           cd test-app
           bundle exec rake
           nohup npm run dev &
-          sleep 20
+          sleep 30
           bundle exec rspec
