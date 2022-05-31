@@ -25,6 +25,7 @@ const main = async () => {
   RubyApplication.mount()
 
   window.bormashino = RubyApplication
+  window.rubyVM = vm
 }
 
 main()

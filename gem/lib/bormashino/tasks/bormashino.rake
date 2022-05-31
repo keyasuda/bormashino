@@ -3,7 +3,7 @@ require 'uri'
 require 'os'
 require 'digest/md5'
 
-RUBY_RELEASE = 'https://github.com/ruby/ruby.wasm/releases/download/2022-04-25-a/ruby-head-wasm32-unknown-wasi-full-js.tar.gz'.freeze
+RUBY_RELEASE = 'https://github.com/ruby/ruby.wasm/releases/download/2022-05-30-a/ruby-head-wasm32-unknown-wasi-full-js.tar.gz'.freeze
 WASI_VFS_RELEASE = 'https://github.com/kateinoigakukun/wasi-vfs/releases/download/v0.1.1/wasi-vfs-cli-x86_64-unknown-linux-gnu.zip'.freeze
 WASI_VFS_RELEASE_MAC_X86_64 = 'https://github.com/kateinoigakukun/wasi-vfs/releases/download/v0.1.1/wasi-vfs-cli-x86_64-apple-darwin.zip'.freeze
 WASI_VFS_RELEASE_MAC_ARM64 = 'https://github.com/kateinoigakukun/wasi-vfs/releases/download/v0.1.1/wasi-vfs-cli-aarch64-apple-darwin.zip'.freeze

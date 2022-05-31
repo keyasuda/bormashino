@@ -1,4 +1,4 @@
-name: Integration test
+name: Nightly integration test with latest ruby.wasm
 
 on:
   push:
@@ -7,14 +7,12 @@ on:
     # The branches below must be a subset of the branches above
     branches: [main]
   schedule:
-    - cron: "20 15 * * 1"
+    - cron: "10 16 * * *"
 
 jobs:
   app:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
@@ -41,36 +39,21 @@ jobs:
           bundle update
           (cd src && bundle update)
           bundle exec rake bormashino:download
-          bundle exec rake
+
+      - name: get latest ruby.wasm
+        run: |
+          cd test-app
+          rm -rf head-wasm32-unknown-wasi-full-js
+          wget https://github.com/maiha/xq.cr/releases/download/v0.3.0/xq
+          chmod u+x xq
+          export RUBY_NIGHTLY=$(curl https://github.com/ruby/ruby.wasm/releases.atom | ./xq .title | tee | head -2 | tail -1 | sed -r 's/^.+>(.+?)<.+$/\1/g')
+          echo $RUBY_NIGHTLY
+          curl -L https://github.com/ruby/ruby.wasm/releases/download/${RUBY_NIGHTLY}/ruby-head-wasm32-unknown-wasi-full-js.tar.gz | tar xz
 
       - name: test
         run: |
           cd test-app
+          bundle exec rake
           nohup npm run dev &
           sleep 15
           bundle exec rspec
-
-  rake:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.2.0-preview1
-          bundler-cache: true
-
-      - name: setup test-app
-        run: |
-          cd test-app
-          bundle update
-          (cd src && bundle update)
-          bundle exec rake bormashino:download
-
-      - name: test
-        run: |
-          cd test-app
-          bundle exec rspec --tag rake
