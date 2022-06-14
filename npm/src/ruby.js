@@ -38,7 +38,13 @@ export const initVm = async (
   initializeOption = ['ruby.wasm', '-I/stub', '-EUTF-8', '-e_=0']
 ) => {
   const rubyModule = await WebAssembly.compileStreaming(fetch(rubyUri))
+  return await initVmFromRubyModule(rubyModule, initializeOption)
+}
 
+export const initVmFromRubyModule = async (
+  rubyModule,
+  initializeOption = ['ruby.wasm', '-I/stub', '-EUTF-8', '-e_=0']
+) => {
   const wasmFs = new WasmFs()
   const wasi = new WASI({
     bindings: Object.assign(Object.assign({}, WASI.defaultBindings), {
