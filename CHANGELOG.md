@@ -1,3 +1,8 @@
+## [0.1.8] - 2022-05-15
+
+- support ruby.wasm nightly 2022-05-20-a or above
+- support initializing VM without fetch (initVmFromRubyModule)
+
 ## [0.1.7] - 2022-05-15
 
 - translation

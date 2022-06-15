@@ -11,7 +11,7 @@ GIT
 PATH
   remote: ../gem
   specs:
-    bormashino (0.1.7)
+    bormashino (0.1.8)
       json_pure (~> 2.6, >= 2.6.1)
       os (~> 1.1, >= 1.1.4)
       ruby2_keywords (= 0.0.4)
