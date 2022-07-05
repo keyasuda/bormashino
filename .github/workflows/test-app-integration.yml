@@ -32,7 +32,7 @@ jobs:
         uses: keyasuda/setup-chrome@latest
 
       - name: npm install on npm/
-        run: (cd npm && npm i)
+        run: (cd npm && npm update)
 
       - name: setup test-app
         run: |
