@@ -3,6 +3,7 @@ require_relative 'ext/js'
 require 'cgi'
 
 module Bormashino
+  # wrapper of Fetch API
   class Fetch
     attr_accessor :resource, :init, :resolved_to, :options
 

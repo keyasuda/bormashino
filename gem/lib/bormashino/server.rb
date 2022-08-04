@@ -2,6 +2,7 @@ require 'uri'
 require 'stringio'
 
 module Bormashino
+  # pseudo rack server module
   module Server
     def self.mounted?
       !@app.nil?
