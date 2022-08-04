@@ -22,7 +22,21 @@ jobs:
       - name: preparation
         run: (cd gem && bundle update)
       - name: test
-        run: (cd gem && bundle exec rake)
+        run: (cd gem && bundle exec rspec)
+
+  rubocop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0-preview1
+          bundler-cache: true
+      - name: preparation
+        run: (cd gem && bundle update)
+      - name: test
+        run: (cd gem && bundle exec rubocop)
 
   rake:
     strategy:
