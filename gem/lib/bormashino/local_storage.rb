@@ -3,6 +3,8 @@ require 'singleton'
 require_relative 'ext/js'
 
 module Bormashino
+  # wrapper of LocalStorage API
+  # see https://developer.mozilla.org/ja/docs/Web/API/Window/localStorage
   class LocalStorage
     include Singleton
 
@@ -35,6 +37,8 @@ module Bormashino
     end
   end
 
+  # wrapper of SessionStorage API
+  # see https://developer.mozilla.org/ja/docs/Web/API/Window/sessionStorage
   class SessionStorage < LocalStorage
     def initialize
       super
