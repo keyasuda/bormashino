@@ -21,6 +21,7 @@ Mainly this package depends on these:
 ## Examples
 
 - [a port of TodoMVC](https://github.com/keyasuda/bormashino-todomvc)
+- [GSI maps integration demo](https://github.com/keyasuda/bormashino-demo-gsi-maps)
 - [app template](https://github.com/keyasuda/bormashino-app-template)
 
 ## How to use
