@@ -48,3 +48,4 @@ config/environments/*.local.yml
 /js/ruby-digest.js
 /wasi-vfs
 .vercel
+screenshot

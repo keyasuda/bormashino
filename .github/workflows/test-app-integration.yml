@@ -50,6 +50,12 @@ jobs:
           sleep 15
           bundle exec rspec
 
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: screenshots
+          path: test-app/screenshot/
+
   rake:
     strategy:
       matrix:

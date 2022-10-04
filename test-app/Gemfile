@@ -16,3 +16,5 @@ group :test do
   gem 'cuprite'
   gem 'rspec-retry'
 end
+
+gem 'capybara-screenshot', '~> 1.0'
