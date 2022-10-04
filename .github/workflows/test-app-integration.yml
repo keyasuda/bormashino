@@ -50,11 +50,17 @@ jobs:
           sleep 15
           bundle exec rspec
 
-      - name: Upload screenshots
+      - name: cleanup
+        if: always()
+        run: |
+          rm -rf test-app/node_modules
+
+      - name: Upload built artifact
         uses: actions/upload-artifact@v3.1.0
+        if: failure()
         with:
-          name: screenshots
-          path: test-app/screenshot/
+          name: built
+          path: test-app/
 
   rake:
     strategy:
