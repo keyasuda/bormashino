@@ -5,6 +5,16 @@ require 'capybara-screenshot/rspec'
 require 'pry'
 require 'rspec/retry'
 
+class JSConsoleLogger
+  def puts(log)
+    src = log.strip.sub(/\A.+[ 0-9\.▶◀]+\{/, '{')
+    src = JSON.parse(src)
+    STDOUT.puts src['params']['args'].map{|a|a['value']} if src['method'] == 'Runtime.consoleAPICalled'
+  rescue
+    # do nothing
+  end
+end
+
 Capybara.default_driver = :cuprite
 Capybara.javascript_driver = :cuprite
 Capybara.register_driver(:cuprite) do |app|
@@ -12,6 +22,7 @@ Capybara.register_driver(:cuprite) do |app|
     app,
     window_size: [1200, 800],
     browser_options: { 'no-sandbox': nil },
+    logger: JSConsoleLogger.new,
     headless: true,
     # headless: false,
   )
