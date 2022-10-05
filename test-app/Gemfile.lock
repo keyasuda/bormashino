@@ -179,7 +179,7 @@ PLATFORMS
 DEPENDENCIES
   bormashino!
   capybara-screenshot (~> 1.0)
-  cuprite
+  cuprite (= 0.13)
   fablicop
   guard
   guard-rake!
