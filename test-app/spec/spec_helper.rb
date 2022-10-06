@@ -7,10 +7,10 @@ require 'rspec/retry'
 
 class JSConsoleLogger
   def puts(log)
-    src = log.strip.sub(/\A.+[ 0-9\.▶◀]+\{/, '{')
+    src = log.strip.sub(/\A.+[ 0-9.▶◀]+\{/, '{')
     src = JSON.parse(src)
-    STDOUT.puts src['params']['args'].map{|a|a['value']} if src['method'] == 'Runtime.consoleAPICalled'
-  rescue
+    $stdout.puts src['params']['args'].map { |a| a['value'] } if src['method'] == 'Runtime.consoleAPICalled'
+  rescue StandardError
     # do nothing
   end
 end
