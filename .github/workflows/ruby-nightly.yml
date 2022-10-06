@@ -30,7 +30,11 @@ jobs:
         uses: keyasuda/setup-chrome@latest
 
       - name: npm install on npm/
-        run: (cd npm && npm update)
+        run: |
+          cd npm
+          cat package.json | jq '.dependencies."ruby-head-wasm-wasi" |= ">= 0.3.0-2022-05-30-a < 0.3.0"' > package.json.new
+          mv package.json.new package.json
+          npm update
 
       - name: setup test-app
         run: |
