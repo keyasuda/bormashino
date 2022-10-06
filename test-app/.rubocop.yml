@@ -1,12 +1,13 @@
 inherit_gem:
   fablicop:
-    - "config/.base_rubocop.yml"
+    - 'config/.base_rubocop.yml'
 
 AllCops:
   Exclude:
-    - "src/bundle/**/*"
-    - "node_modules/**/*"
-    - "head-wasm32-unknown-wasi-full-js/**/*"
+    - 'src/bundle/**/*'
+    - 'node_modules/**/*'
+    - 'head-wasm32-unknown-wasi-full-js/**/*'
+    - 'rubies/**/*'
 
 RSpec/InstanceVariable:
   Enabled: false
