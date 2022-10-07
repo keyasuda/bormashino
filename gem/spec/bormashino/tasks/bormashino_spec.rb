@@ -31,7 +31,11 @@ RSpec.describe 'bormashino:*', rake: true do
         end
       end
       expect(`./wasi-vfs --version`).to include 'wasi-vfs-cli '
-      expect(`file head-wasm32-unknown-wasi-full-js/usr/local/bin/ruby`).to include 'WebAssembly (wasm) binary module version 0x1 (MVP)' if OS.linux?
+
+      if OS.linux?
+        filetype = `file rubies/#{RELEASE_DATE}/head-wasm32-unknown-wasi-full-js/usr/local/bin/ruby`
+        expect(filetype).to include 'WebAssembly (wasm) binary module version 0x1 (MVP)'
+      end
     end
   end
 end

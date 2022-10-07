@@ -40,7 +40,6 @@ jobs:
           npm update
           bundle update
           (cd src && bundle update)
-          bundle exec rake bormashino:download
           bundle exec rake
 
       - name: test
@@ -80,7 +79,6 @@ jobs:
           cd test-app
           bundle update
           (cd src && bundle update)
-          bundle exec rake bormashino:download
 
       - name: test
         run: |

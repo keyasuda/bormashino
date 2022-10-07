@@ -22,7 +22,6 @@ in the template dir
 rbenv install 3.2.0-preview1
 gem install foreman
 bundle install
-bundle exec rake bormashino:download
 (cd src && bundle install)
 npm install
 ./bin/dev
