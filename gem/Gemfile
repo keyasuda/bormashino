@@ -16,3 +16,5 @@ gem 'guard'
 gem 'guard-rspec', require: false
 gem 'guard-rubocop'
 gem 'pry'
+
+gem 'rubocop-rake', '~> 0.6.0'

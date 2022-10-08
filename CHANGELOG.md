@@ -1,3 +1,8 @@
+## [0.1.9] - 2022-10-08
+
+- use ruby.wasm 2022-10-06-a
+- add automatic download feature for ruby.wasm and wasi-vfs
+
 ## [0.1.8] - 2022-05-15
 
 - support ruby.wasm nightly 2022-05-20-a or above
