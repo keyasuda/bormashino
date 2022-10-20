@@ -17,4 +17,4 @@ group :test do
   gem 'rspec-retry'
 end
 
-gem 'capybara-screenshot', '~> 1.0'
+gem 'capybara-screenshot', '~> 1.0', '>= 1.0.26'
