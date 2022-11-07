@@ -178,7 +178,7 @@ PLATFORMS
 
 DEPENDENCIES
   bormashino!
-  capybara-screenshot (~> 1.0)
+  capybara-screenshot (~> 1.0, >= 1.0.26)
   cuprite (= 0.13)
   fablicop
   guard

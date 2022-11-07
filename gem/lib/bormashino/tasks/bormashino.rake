@@ -3,7 +3,8 @@ require 'uri'
 require 'os'
 require 'digest/md5'
 
-RELEASE_DATE = ENV['RELEASE_DATE'] || '2022-10-06-a'.freeze
+RELEASE_DATE = ENV['RELEASE_DATE'] || 'ruby-head-wasm-wasi-0.4.0'.freeze
+# https://github.com/ruby/ruby.wasm/releases/download/ruby-head-wasm-wasi-0.4.0/ruby-head-wasm32-unknown-wasi-full-js.tar.gz
 RUBY_RELEASE = "https://github.com/ruby/ruby.wasm/releases/download/#{RELEASE_DATE}/ruby-head-wasm32-unknown-wasi-full-js.tar.gz".freeze
 
 WASI_VFS_RELEASE = 'https://github.com/kateinoigakukun/wasi-vfs/releases/download/v0.1.1/wasi-vfs-cli-x86_64-unknown-linux-gnu.zip'.freeze
