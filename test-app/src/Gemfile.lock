@@ -5,23 +5,24 @@ GEM
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     rack (2.2.4)
-    rack-protection (3.0.2)
+    rack-protection (3.0.4)
       rack
     ruby2_keywords (0.0.4)
-    sinatra (3.0.2)
+    sinatra (3.0.4)
       mustermann (~> 3.0)
       rack (~> 2.2, >= 2.2.4)
-      rack-protection (= 3.0.2)
+      rack-protection (= 3.0.4)
       tilt (~> 2.0)
     tilt (2.0.11)
 
 PLATFORMS
+  ruby
   x86_64-linux
 
 DEPENDENCIES
   json_pure (~> 2.6, >= 2.6.1)
   ruby2_keywords (= 0.0.4)
-  sinatra
+  sinatra (>= 3.0.4)
 
 BUNDLED WITH
-   2.4.0.dev
+   2.1.4
