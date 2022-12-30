@@ -81,7 +81,8 @@ export const initVmFromRubyModule = async (
   vm.initialize(initializeOption)
 
   vm.eval(`
-    Gem.paths = {'GEM_PATH' => '/src/bundle/ruby/3.2.0+1'}
+    gem_path = Dir.glob('/src/bundle/ruby/*').join(':')
+    Gem.paths = {'GEM_PATH' => gem_path}
     # workaround
     require 'rack'
     Rack::Response
