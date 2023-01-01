@@ -11,7 +11,7 @@ const currentPath = () => location.href.replace(location.origin, '')
 export const router = hr
 export const mount = () => router.always(() => request('get', currentPath()))
 
-export const request = (
+export const request = async (
   method,
   path,
   payload = '',
@@ -19,7 +19,7 @@ export const request = (
 ) => {
   const target = document.querySelector('#bormashino-application')
 
-  const ret = requestToServer(method, path, payload, referer)
+  const ret = await requestToServer(method, path, payload, referer)
   if (applyServerResult(JSON.parse(ret.toJS()), target, router))
     hookTransitionElements(target, request)
 }
@@ -47,6 +47,9 @@ export const initVmFromRubyModule = async (
 ) => {
   const wasmFs = new WasmFs()
   const wasi = new WASI({
+    env: {
+      RUBY_FIBER_MACHINE_STACK_SIZE: String(1024 * 1024 * 20),
+    },
     bindings: Object.assign(Object.assign({}, WASI.defaultBindings), {
       fs: wasmFs.fs,
     }),
@@ -93,15 +96,22 @@ export const initVmFromRubyModule = async (
   return vm
 }
 
-const requestToServer = (method, path, payload, referer) => {
-  const server = vm.eval('Bormashino::Server')
-  const ret = server.call(
-    'request',
-    toRbValue(method.toUpperCase()),
-    toRbValue(path),
-    toRbValue(payload),
-    toRbValue(referer)
-  )
+const requestToServer = async (method, path, payload, referer) => {
+  window.bormashino.requestSrc = JSON.stringify({
+    method,
+    path,
+    payload,
+    referer,
+  })
+  const ret = await vm.evalAsync(`
+    src = JSON.parse(JS.global[:window][:bormashino][:requestSrc].inspect)
+    Bormashino::Server.request(
+      src['method'].upcase,
+      src['path'],
+      src['payload'],
+      src['referer']
+    )
+  `)
 
   return ret
 }

@@ -38,6 +38,12 @@ class App < Sinatra::Base
     'initiated'
   end
 
+  get '/fetch2' do
+    result = JS.global.fetch('/fetch.txt').await
+    ret = result.text.await
+    ret.to_s
+  end
+
   post '/fetched' do
     params.inspect
   end
