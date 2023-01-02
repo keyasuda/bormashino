@@ -1,3 +1,8 @@
+## [0.1.13] - 2022-01-02
+
+- enable JS::Object#await
+- deprecate Bormashino::Fetch
+
 ## [0.1.12] - 2022-12-30
 
 - allow ruby 3.2.0
