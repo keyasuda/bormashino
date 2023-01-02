@@ -62,13 +62,22 @@ RSpec.describe 'test_app', type: :feature, retry: 10 do
     it { is_expected.to have_text('2nd form has submitted') }
   end
 
-  describe 'fetch api' do
+  describe 'Bormashino::Fetch' do
     before do
       click_link 'fetch test'
       sleep 1
     end
 
     it { is_expected.to have_text('{"status"=>"200", "payload"=>"fetched text\n", "options"=>"{\"param1\":\"value1\",\"param2\":\"value2\"}"}') }
+  end
+
+  describe 'async/await' do
+    before do
+      click_link 'JS::Object#await fetch'
+      sleep 1
+    end
+
+    it { is_expected.to have_text('fetched text') }
   end
 
   describe 'LocalStorage' do

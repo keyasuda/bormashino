@@ -8,6 +8,8 @@ module Bormashino
     attr_accessor :resource, :init, :resolved_to, :options
 
     def initialize(resource:, resolved_to:, init: {}, options: {})
+      JS.eval("console.warn('Bormashino::Fetch is deprecated. Use Fetch API and JS::Object#await')")
+
       @resource = resource
       @init = init
       @resolved_to = resolved_to
