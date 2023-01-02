@@ -5,7 +5,10 @@ RSpec.describe 'test_app', type: :feature, retry: 10 do
     visit 'http://localhost:5000'
     loop do
       sleep 1
-      break if page.find(:css, 'h1')
+      begin
+        break if page.find(:css, 'h1')
+      rescue StandardError
+      end
     end
   end
 

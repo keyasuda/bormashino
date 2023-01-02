@@ -88,6 +88,9 @@ export const initVmFromRubyModule = async (
 }
 
 const requestToServer = async (method, path, payload, referer) => {
+  if (typeof window.bormashino == 'undefined') {
+    window.bormashino = {}
+  }
   window.bormashino.requestSrc = JSON.stringify({
     method,
     path,
