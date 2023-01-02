@@ -24,15 +24,6 @@ export const request = async (
     hookTransitionElements(target, request)
 }
 
-// JSでの値をRubyでの値に変換する
-// JS obj -> JSON -> url-encoded str -> (vm.eval) -> JSON -> Ruby obj
-const toRbValue = (v) => {
-  const input = "'" + encodeURIComponent(JSON.stringify(v)) + "'"
-  return vm
-    .eval('JSON')
-    .call('parse', vm.eval('CGI').call('unescape', vm.eval(input)))
-}
-
 export const initVm = async (
   rubyUri,
   initializeOption = ['ruby.wasm', '-I/stub', '-EUTF-8', '-e_=0']
@@ -104,7 +95,7 @@ const requestToServer = async (method, path, payload, referer) => {
     referer,
   })
   const ret = await vm.evalAsync(`
-    src = JSON.parse(JS.global[:window][:bormashino][:requestSrc].inspect)
+    src = JSON.parse(JS.global[:window][:bormashino][:requestSrc].to_s)
     Bormashino::Server.request(
       src['method'].upcase,
       src['path'],
