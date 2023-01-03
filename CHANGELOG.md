@@ -1,3 +1,7 @@
+## [0.1.14] - 2022-01-03
+
+- avoid TypeError with old app.js
+
 ## [0.1.13] - 2022-01-02
 
 - enable JS::Object#await

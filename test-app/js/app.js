@@ -20,12 +20,12 @@ const main = async () => {
         'dispatched: ' + Number(new Date())
     })
 
-  window.bormashino = RubyApplication
-  window.rubyVM = vm
-
   const currentPath = () => location.href.replace(location.origin, '')
   RubyApplication.request('get', currentPath())
   RubyApplication.mount()
+
+  window.bormashino = RubyApplication
+  window.rubyVM = vm
 }
 
 main()
