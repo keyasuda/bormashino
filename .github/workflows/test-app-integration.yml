@@ -20,7 +20,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.0-preview1
+          ruby-version: 3.2.0
           bundler-cache: true
 
       - name: Set up Node.js
@@ -71,7 +71,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.0-preview1
+          ruby-version: 3.2.0
           bundler-cache: true
 
       - name: setup test-app

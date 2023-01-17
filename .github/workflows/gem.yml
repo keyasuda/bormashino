@@ -17,7 +17,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.0-preview1
+          ruby-version: 3.2.0
           bundler-cache: true
       - name: preparation
         run: (cd gem && bundle update)
@@ -31,7 +31,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.0-preview1
+          ruby-version: 3.2.0
           bundler-cache: true
       - name: preparation
         run: (cd gem && bundle update)
@@ -48,7 +48,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.0-preview1
+          ruby-version: 3.2.0
           bundler-cache: true
       - name: preparation
         run: (cd gem && bundle update)
