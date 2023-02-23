@@ -1,6 +1,6 @@
 import { WASI } from '@wasmer/wasi'
 import { WasmFs } from '@wasmer/wasmfs'
-import { RubyVM } from 'ruby-head-wasm-wasi/dist/index.js'
+import { RubyVM } from 'ruby-head-wasm-wasi/dist/index.cjs.js'
 import { router as hr, hookTransitionElements } from './htmlHandlers.js'
 import { applyServerResult } from './applyServerResult.js'
 

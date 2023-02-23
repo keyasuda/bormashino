@@ -3,7 +3,7 @@ require 'uri'
 require 'os'
 require 'digest/md5'
 
-RELEASE_DATE = ENV['RELEASE_DATE'] || 'ruby-head-wasm-wasi-0.5.0'.freeze
+RELEASE_DATE = ENV['RELEASE_DATE'] || 'ruby-head-wasm-wasi-0.6.0'.freeze
 # https://github.com/ruby/ruby.wasm/releases/download/ruby-head-wasm-wasi-0.5.0/ruby-head-wasm32-unknown-wasi-full-js.tar.gz
 RUBY_RELEASE = "https://github.com/ruby/ruby.wasm/releases/download/#{RELEASE_DATE}/ruby-head-wasm32-unknown-wasi-full-js.tar.gz".freeze
 
