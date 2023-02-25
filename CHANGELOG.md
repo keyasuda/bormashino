@@ -1,3 +1,7 @@
+## [0.1.15] - 2023-02-25
+
+- use ruby.wasm 0.6.0
+
 ## [0.1.14] - 2022-01-03
 
 - avoid TypeError with old app.js
