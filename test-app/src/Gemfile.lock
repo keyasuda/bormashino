@@ -4,7 +4,7 @@ GEM
     json_pure (2.6.3)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
-    rack (2.2.6.2)
+    rack (2.2.6.3)
     rack-protection (3.0.5)
       rack
     ruby2_keywords (0.0.4)
@@ -22,7 +22,7 @@ PLATFORMS
 DEPENDENCIES
   json_pure (~> 2.6, >= 2.6.1)
   ruby2_keywords (= 0.0.4)
-  sinatra (>= 3.0.4)
+  sinatra (>= 3.0.5)
 
 BUNDLED WITH
-   2.4.1
+   2.1.4
