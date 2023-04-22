@@ -22,12 +22,12 @@ jobs:
           bundler-cache: true
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
 
       - name: Set up Chrome
-        uses: keyasuda/setup-chrome@latest
+        uses: browser-actions/setup-chrome@v1.2.0
 
       - name: npm install on npm/
         run: |
