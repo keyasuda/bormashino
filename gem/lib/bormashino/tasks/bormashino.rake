@@ -78,10 +78,10 @@ namespace :bormashino do
   task :digest, [:destination] do |_, args|
     digest = Digest::MD5.file('tmp/ruby.wasm').hexdigest
     FileUtils.cp('tmp/ruby.wasm', "#{args[:destination]}/ruby.#{digest}.wasm")
-    File.open(DIGEST, 'w') { |f|
+    File.open(DIGEST, 'w') do |f|
       f.puts "export default rubyDigest = '#{digest}'
   "
-    }
+    end
   end
 
   desc 'clean built ruby.wasm files'

@@ -3,7 +3,9 @@ guard :rubocop, cli: ['-A'] do
   watch(/.+\.rake$/)
   watch('Gemfile')
   watch('bormashino.gemspec')
-  watch(%r{(?:.+/)?\.rubocop(?:_todo)?\.yml$}) { |m| File.dirname(m[0]) }
+  watch(%r{(?:.+/)?\.rubocop(?:_todo)?\.yml$}) do |m|
+    File.dirname(m[0])
+  end
 end
 
 guard :rspec, cmd: 'bundle exec rspec' do
@@ -20,7 +22,7 @@ guard :rspec, cmd: 'bundle exec rspec' do
   ruby = dsl.ruby
   dsl.watch_spec_files_for(ruby.lib_files)
 
-  watch(%r{src/(.*?).rb}) { |file|
+  watch(%r{src/(.*?).rb}) do |file|
     "spec/#{file[1]}_spec.rb"
-  }
+  end
 end
