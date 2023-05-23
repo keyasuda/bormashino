@@ -32,7 +32,7 @@ jobs:
       - name: npm install on npm/
         run: |
           cd npm
-          cat package.json | jq '.dependencies."ruby-head-wasm-wasi" |= ">= 0.6.0-2023-02-22-a < 0.6.0"' > package.json.new
+          cat package.json | jq '.dependencies."ruby-3_2-wasm-wasi" |= ">= 2.0.0-2023-02-22-a < 2.0.0"' > package.json.new
           mv package.json.new package.json
           npm update
 
