@@ -3,6 +3,7 @@ build
 coverage
 dist
 head-wasm32-unknown-wasi-full-js
+3_2-wasm32-unknown-wasi-full-js
 
 # Ignore all HTML files:
 *.html

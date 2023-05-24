@@ -9,6 +9,7 @@ AllCops:
     - "src/bundle/**/*"
     - "node_modules/**/*"
     - "head-wasm32-unknown-wasi-full-js/**/*"
+    - "3_2-wasm32-unknown-wasi-full-js/**/*"
 
 RSpec/InstanceVariable:
   Enabled: false
