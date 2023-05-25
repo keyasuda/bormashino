@@ -1,13 +1,13 @@
 name: Nightly integration test with latest ruby.wasm
 
 on:
-  # push:
-  #   branches: [main]
-  # pull_request:
-  #   # The branches below must be a subset of the branches above
-  #   branches: [main]
-  # schedule:
-  #   - cron: "10 16 * * *"
+  push:
+    branches: [main]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [main]
+  schedule:
+    - cron: "10 16 * * *"
 
 jobs:
   app:
@@ -32,7 +32,7 @@ jobs:
       - name: npm install on npm/
         run: |
           cd npm
-          cat package.json | jq '.dependencies."ruby-head-wasm-wasi" |= ">= 0.6.0-2023-02-22-a < 0.6.0"' > package.json.new
+          cat package.json | jq '.dependencies."ruby-3_2-wasm-wasi" |= ">= 2.0.0-2023-02-22-a < 2.0.0"' > package.json.new
           mv package.json.new package.json
           npm update
 
@@ -46,7 +46,7 @@ jobs:
       - name: get latest ruby.wasm and test
         run: |
           cd test-app
-          rm -rf head-wasm32-unknown-wasi-full-js
+          rm -rf 3_2-wasm32-unknown-wasi-full-js
           wget https://github.com/maiha/xq.cr/releases/download/v0.3.0/xq
           chmod u+x xq
           export RELEASE_DATE=$(curl https://github.com/ruby/ruby.wasm/releases.atom | ./xq .title | tee | head -2 | tail -1 | sed -r 's/^.+>(.+?)<.+$/\1/g')
