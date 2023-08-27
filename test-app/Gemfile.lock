@@ -20,7 +20,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.0.4.3)
+    activesupport (7.0.7.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -47,8 +47,8 @@ GEM
       capybara (>= 2.1, < 4)
       ferrum (~> 0.11.0)
     diff-lcs (1.5.0)
-    fablicop (1.10.1)
-      rubocop (>= 1.14, < 1.51)
+    fablicop (1.10.3)
+      rubocop (>= 1.14, < 1.55)
       rubocop-rails
       rubocop-rspec (>= 1.15.1)
     ferrum (0.11)
@@ -78,7 +78,7 @@ GEM
     guard-shell (0.7.2)
       guard (>= 2.0.0)
       guard-compat (~> 1.0)
-    i18n (1.13.0)
+    i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     json (2.6.3)
     json_pure (2.6.3)
@@ -91,7 +91,7 @@ GEM
     matrix (0.4.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
-    minitest (5.18.0)
+    minitest (5.19.0)
     mustermann (2.0.2)
       ruby2_keywords (~> 0.0.1)
     nenv (0.3.0)
@@ -152,11 +152,11 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.23.1)
       rubocop (~> 1.33)
-    rubocop-rails (2.19.1)
+    rubocop-rails (2.20.2)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-    rubocop-rspec (2.22.0)
+    rubocop-rspec (2.23.2)
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
@@ -186,7 +186,7 @@ DEPENDENCIES
   bormashino!
   capybara-screenshot (~> 1.0, >= 1.0.26)
   cuprite (= 0.13)
-  fablicop
+  fablicop (>= 1.10.2)
   guard
   guard-rake!
   guard-rspec
