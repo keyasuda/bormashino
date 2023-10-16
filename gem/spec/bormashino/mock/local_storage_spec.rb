@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../../../lib/bormashino/mock/local_storage'
-# rubocop:disable RSpec::FilePath
+
 RSpec.describe Bormashino::LocalStorage do
   subject { described_class.instance }
 
@@ -16,6 +16,7 @@ RSpec.describe Bormashino::LocalStorage do
 
   describe 'get items' do
     before { 4.times { |i| subject.set_item("key#{i}", "value#{i}") } }
+
     it 'returns the value' do
       expect(subject.get_item('key2')).to eq 'value2'
     end
@@ -27,7 +28,7 @@ RSpec.describe Bormashino::LocalStorage do
     describe 'key manipulation' do
       it 'removes the item' do
         subject.remove_item('key1')
-        expect(subject.store['key1']).to eq nil
+        expect(subject.store['key1']).to be_nil
       end
 
       it 'clears everything' do
@@ -37,4 +38,3 @@ RSpec.describe Bormashino::LocalStorage do
     end
   end
 end
-# rubocop:enable RSpec::FilePath

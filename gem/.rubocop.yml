@@ -46,3 +46,9 @@ Lint/EmptyClass:
 
 Rails/RakeEnvironment:
   Enabled: false
+
+RSpec/SpecFilePathFormat:
+  Enabled: false
+
+RSpec/FilePath:
+  Enabled: false
