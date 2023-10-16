@@ -5,7 +5,7 @@ require 'os'
 
 require 'pry'
 
-RSpec.describe 'bormashino:*', rake: true do
+RSpec.describe 'bormashino:*', :rake do
   describe 'download' do
     subject(:task) { Rake.application['bormashino:download'] }
 
