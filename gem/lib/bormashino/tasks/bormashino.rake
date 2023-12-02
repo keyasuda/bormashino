@@ -5,7 +5,7 @@ require 'uri'
 require 'os'
 require 'digest/md5'
 
-RUBY_BASE_VERSION = '3_2'.freeze
+RUBY_BASE_VERSION = ENV['RUBY_BASE_VERSION'] || '3_2'.freeze
 RELEASE_DATE = ENV['RELEASE_DATE'] || '2.0.0'.freeze
 # release https://github.com/ruby/ruby.wasm/releases/download/2.0.0/ruby-3_2-wasm32-unknown-wasi-full-js.tar.gz
 # nigtly  https://github.com/ruby/ruby.wasm/releases/download/2023-05-20-a/ruby-3_2-wasm32-unknown-wasi-full-js.tar.gz
