@@ -8,15 +8,15 @@ require 'digest/md5'
 RUBY_BASE_VERSION = ENV['RUBY_BASE_VERSION'] || '3_2'.freeze
 RELEASE_DATE = ENV['RELEASE_DATE'] || '2.0.0'.freeze
 # release https://github.com/ruby/ruby.wasm/releases/download/2.0.0/ruby-3_2-wasm32-unknown-wasi-full-js.tar.gz
-# nigtly  https://github.com/ruby/ruby.wasm/releases/download/2023-05-20-a/ruby-3_2-wasm32-unknown-wasi-full-js.tar.gz
-RUBY_RELEASE = "https://github.com/ruby/ruby.wasm/releases/download/#{RELEASE_DATE}/ruby-#{RUBY_BASE_VERSION}-wasm32-unknown-wasi-full-js.tar.gz".freeze
+# nigtly  https://github.com/ruby/ruby.wasm/releases/download/2023-12-30-a/ruby-3.2-wasm32-unknown-wasi-full-js-debug.tar.gz
+RUBY_RELEASE = "https://github.com/ruby/ruby.wasm/releases/download/#{RELEASE_DATE}/ruby-#{RUBY_BASE_VERSION}-wasm32-unknown-wasi-full-js-debug.tar.gz".freeze
 
 WASI_VFS_RELEASE = 'https://github.com/kateinoigakukun/wasi-vfs/releases/download/v0.1.1/wasi-vfs-cli-x86_64-unknown-linux-gnu.zip'.freeze
 WASI_VFS_RELEASE_MAC_X86_64 = 'https://github.com/kateinoigakukun/wasi-vfs/releases/download/v0.1.1/wasi-vfs-cli-x86_64-apple-darwin.zip'.freeze
 WASI_VFS_RELEASE_MAC_ARM64 = 'https://github.com/kateinoigakukun/wasi-vfs/releases/download/v0.1.1/wasi-vfs-cli-aarch64-apple-darwin.zip'.freeze
 
 RUBIES = 'rubies'.freeze
-RUBY_ROOT = "#{RUBY_BASE_VERSION}-wasm32-unknown-wasi-full-js".freeze
+RUBY_ROOT = "#{RUBY_BASE_VERSION}-wasm32-unknown-wasi-full-js-debug".freeze
 WASI_VFS = './wasi-vfs'.freeze
 TMP = 'tmp'.freeze
 DIGEST = 'js/ruby-digest.js'.freeze
