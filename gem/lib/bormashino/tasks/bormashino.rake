@@ -29,6 +29,7 @@ namespace :bormashino do
       unless File.exist?(RELEASE_DATE)
         FileUtils.mkdir_p(RELEASE_DATE)
         Dir.chdir(RELEASE_DATE) do
+          p RUBY_RELEASE
           system "curl -L #{RUBY_RELEASE} | tar xz"
           FileUtils.rm(File.join(RUBY_ROOT, '/usr/local/lib/libruby-static.a'))
           FileUtils.rm_rf(File.join(RUBY_ROOT, '/usr/local/include'))
