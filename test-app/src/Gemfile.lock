@@ -27,7 +27,7 @@ PLATFORMS
 DEPENDENCIES
   json_pure (~> 2.6, >= 2.6.1)
   ruby2_keywords (= 0.0.4)
-  sinatra (>= 3.0.5)
+  sinatra (>= 4.0.0)
 
 BUNDLED WITH
    2.4.1
