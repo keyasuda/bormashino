@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
   spec.add_dependency 'json_pure', '~> 2.6', '>= 2.6.1'
-  spec.add_dependency 'sinatra', '~> 2.2'
+  spec.add_dependency 'sinatra', '>= 4.0.0'
   spec.add_dependency 'ruby2_keywords', '0.0.4'
   spec.add_dependency 'os', '~> 1.1', '>= 1.1.4'
 
