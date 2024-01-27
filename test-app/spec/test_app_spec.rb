@@ -1,4 +1,4 @@
-RSpec.describe 'test_app', type: :feature, retry: 10 do
+RSpec.describe 'test_app', retry: 10, type: :feature do
   subject { page }
 
   before do

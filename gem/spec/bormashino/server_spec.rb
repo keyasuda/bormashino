@@ -171,7 +171,7 @@ RSpec.describe Bormashino::Server do
 
       it 'sends referer' do
         expect(subject.first).to eq 302
-        expect(subject[1]['Location']).to eq 'http://example.com:0/referer'
+        expect(subject[1]['location']).to eq 'http://example.com:0/referer'
       end
     end
   end
