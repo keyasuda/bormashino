@@ -41,13 +41,13 @@ export const applyServerResult = (src, target, router) => {
       return true
 
     case 302:
-      const loc = new URL(src[1]['Location'])
+      const loc = new URL(src[1]['location'])
 
       if (loc.host == 'example.com:0') {
         const path = loc.pathname + loc.search
         router.pushState(path)
       } else {
-        location.href = src[1]['Location']
+        location.href = src[1]['location']
       }
       return false
 

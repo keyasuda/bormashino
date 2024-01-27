@@ -110,7 +110,7 @@ describe('applyServerResult', () => {
 
   describe('302 relative location', () => {
     beforeEach(() => {
-      content = [302, { Location: 'http://example.com:0/location' }, []]
+      content = [302, { location: 'http://example.com:0/location' }, []]
       ret = applyServerResult(content, target, router)
     })
 
@@ -132,13 +132,13 @@ describe('applyServerResult', () => {
       delete window.location
       window.location = { assign: jest.fn() }
 
-      content = [302, { Location: 'http://absolute.example.com/location' }, []]
+      content = [302, { location: 'http://absolute.example.com/location' }, []]
 
       ret = applyServerResult(content, target, router)
     })
 
     it('navigates to the location', () => {
-      expect(location.href).toEqual(content[1]['Location'])
+      expect(location.href).toEqual(content[1]['location'])
     })
 
     it('returns true', () => {
