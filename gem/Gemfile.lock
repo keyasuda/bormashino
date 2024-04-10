@@ -146,7 +146,9 @@ DEPENDENCIES
   rake (~> 13.0)
   rspec (~> 3.0)
   rubocop (~> 1.7)
+  rubocop-rails (= 2.20.2)
   rubocop-rake (~> 0.6.0)
+  rubocop-rspec (= 2.23.2)
 
 BUNDLED WITH
    2.4.1
