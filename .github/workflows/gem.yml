@@ -34,7 +34,7 @@ jobs:
           ruby-version: 3.2.0
           bundler-cache: true
       - name: preparation
-        run: (cd gem && bundle update)
+        run: (cd gem && bundle)
       - name: test
         run: (cd gem && bundle exec rubocop)
 
