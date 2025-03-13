@@ -38,8 +38,8 @@ jobs:
         run: |
           cd test-app
           npm update
-          bundle update
-          (cd src && bundle update)
+          bundle
+          (cd src && bundle)
           bundle exec rake
 
       - name: test
@@ -77,8 +77,8 @@ jobs:
       - name: setup test-app
         run: |
           cd test-app
-          bundle update
-          (cd src && bundle update)
+          bundle
+          (cd src && bundle)
 
       - name: test
         run: |
