@@ -38,8 +38,8 @@ jobs:
         run: |
           cd test-app
           npm update
-          bundle update
-          (cd src && bundle update)
+          bundle
+          (cd src && bundle)
           bundle exec rake
 
       - name: test
@@ -55,7 +55,7 @@ jobs:
           rm -rf test-app/node_modules
 
       - name: Upload built artifact
-        uses: actions/upload-artifact@v3.1.0
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: built
@@ -77,8 +77,8 @@ jobs:
       - name: setup test-app
         run: |
           cd test-app
-          bundle update
-          (cd src && bundle update)
+          bundle
+          (cd src && bundle)
 
       - name: test
         run: |
