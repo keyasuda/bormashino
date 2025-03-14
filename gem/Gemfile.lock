@@ -90,8 +90,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     regexp_parser (2.9.0)
-    rexml (3.3.6)
-      strscan
+    rexml (3.4.1)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -141,7 +140,6 @@ GEM
       rack-protection (= 4.0.0)
       rack-session (>= 2.0.0, < 3)
       tilt (~> 2.0)
-    strscan (3.1.0)
     thor (1.3.1)
     tilt (2.3.0)
     tzinfo (2.0.6)
@@ -159,6 +157,7 @@ DEPENDENCIES
   guard-rubocop
   pry
   rake (~> 13.0)
+  rexml (>= 3.3.9)
   rspec (~> 3.0)
   rubocop (~> 1.54)
   rubocop-rails (= 2.20.2)
