@@ -9,7 +9,7 @@ gem 'rake', '~> 13.0'
 
 gem 'rspec', '~> 3.0'
 
-gem 'rubocop', '~> 1.54'
+gem 'rubocop', '~> 1.66', '>= 1.66.0'
 
 gem 'fablicop', '>= 1.10.2', require: false
 gem 'guard'
@@ -17,6 +17,6 @@ gem 'guard-rspec', require: false
 gem 'guard-rubocop'
 gem 'pry'
 gem 'rubocop-rails', '2.20.2'
-gem 'rubocop-rspec', '2.23.2'
+gem 'rubocop-rspec', '3.0.0'
 
 gem 'rubocop-rake', '~> 0.6.0'
