@@ -12,7 +12,7 @@ gem 'rspec', '~> 3.0'
 gem 'rubocop', '~> 1.54'
 
 gem 'fablicop', '>= 1.10.2', require: false
-gem 'guard'
+gem 'guard', '>= 2.19.0'
 gem 'guard-rspec', require: false
 gem 'guard-rubocop'
 gem 'pry'
