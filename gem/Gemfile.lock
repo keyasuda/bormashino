@@ -78,7 +78,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     racc (1.7.3)
-    rack (3.0.12)
+    rack (3.1.18)
     rack-protection (4.0.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0, < 4)
@@ -157,7 +157,6 @@ DEPENDENCIES
   guard-rubocop
   pry
   rake (~> 13.0)
-  rexml (>= 3.3.9)
   rspec (~> 3.0)
   rubocop (~> 1.54)
   rubocop-rails (= 2.20.2)
