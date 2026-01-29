@@ -3,13 +3,7 @@ RSpec.describe 'test_app', retry: 10, type: :feature do
 
   before do
     visit 'http://localhost:5000'
-    loop do
-      sleep 1
-      begin
-        break if page.find(:css, 'h1')
-      rescue StandardError
-      end
-    end
+    expect(page).to have_css('h1', wait: 30)
   end
 
   describe 'initialized app' do
