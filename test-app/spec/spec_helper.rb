@@ -129,4 +129,43 @@ RSpec.configure do |config|
 
   config.verbose_retry = true
   config.display_try_failure_messages = true
+
+  config.before(:suite) do
+    # Clear parcel cache to ensure fresh start
+    FileUtils.rm_rf('.parcel-cache')
+    
+    # Process.spawn with pgroup: true to kill the process tree (including child processes started by npm) later
+    # Run parcel directly to avoid npm swallowing signals or buffering output
+    cmd = './node_modules/.bin/parcel --port 5000 --dist-dir tmp/'
+    $server_pid = Process.spawn({'CI' => 'true'}, cmd, pgroup: true, in: File::NULL, out: File::NULL, err: File::NULL)
+
+    # Wait for server to be ready
+    require 'socket'
+    timeout = 60
+    start_time = Time.now
+    loop do
+      begin
+        TCPSocket.new('127.0.0.1', 5000).close
+        break
+      rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
+        if Time.now - start_time > timeout
+          Process.kill(:SIGTERM, -$server_pid)
+          raise "Server failed to start within #{timeout} seconds"
+        end
+        sleep 0.1
+      end
+    end
+  end
+
+  config.after(:suite) do
+    if $server_pid
+      puts "Stopping server..."
+      begin
+        Process.kill(:SIGTERM, -$server_pid)
+        Process.wait($server_pid)
+      rescue Errno::ESRCH, Errno::ECHILD
+        # Process already dead
+      end
+    end
+  end
 end
