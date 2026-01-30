@@ -83,8 +83,7 @@ namespace :bormashino do
     digest = Digest::MD5.file('tmp/ruby.wasm').hexdigest
     FileUtils.cp('tmp/ruby.wasm', "#{args[:destination]}/ruby.#{digest}.wasm")
     File.open(DIGEST, 'w') do |f|
-      f.puts "export default rubyDigest = '#{digest}'
-  "
+      f.puts "const rubyDigest = '#{digest}'; export default rubyDigest;"
     end
   end
 

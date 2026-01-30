@@ -4,14 +4,31 @@ require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 require 'pry'
 require 'rspec/retry'
+require 'fileutils'
+require 'timeout'
+require 'socket'
 
 class JSConsoleLogger
   def puts(log)
-    src = log.strip.sub(/\A.+[ 0-9.▶◀]+\{/, '{')
-    src = JSON.parse(src)
-    $stdout.puts src['params']['args'].pluck('value') if src['method'] == 'Runtime.consoleAPICalled'
-  rescue StandardError
-    # do nothing
+    src = begin
+      JSON.parse(log.strip.sub(/\A.+[ 0-9.▶◀]+\{/, '{'))
+    rescue StandardError
+      nil
+    end
+    return unless src
+
+    case src['method']
+    when 'Runtime.consoleAPICalled'
+      msg = src['params']['args'].map { |a| a['value'] || a['description'] }.join(' ')
+      $stdout.puts "BROWSER_CONSOLE: #{msg}"
+    when 'Runtime.exceptionThrown'
+      details = src['params']['exceptionDetails']
+      msg = details['exception'] ? (details['exception']['description'] || details['exception']['value']) : details['text']
+      $stdout.puts "BROWSER_EXCEPTION: #{msg}"
+    end
+  rescue StandardError => e
+    $stdout.puts "JSConsoleLogger ERROR: #{e.class}: #{e.message}"
+    $stdout.puts "JSConsoleLogger RAW LOG: #{log}"
   end
 end
 
@@ -21,7 +38,7 @@ Capybara.register_driver(:cuprite) do |app|
   Capybara::Cuprite::Driver.new(
     app,
     window_size: [1200, 800],
-    browser_options: { 'no-sandbox': nil },
+    browser_options: { 'no-sandbox': nil, 'disable-dev-shm-usage': nil },
     logger: JSConsoleLogger.new,
     headless: true,
     # headless: false,
@@ -129,4 +146,63 @@ RSpec.configure do |config|
 
   config.verbose_retry = true
   config.display_try_failure_messages = true
+
+  config.before(:suite) do
+    server_host = '127.0.0.1'
+    server_port = 5000
+    server_start_timeout = 60
+
+    # Check if server is already running
+    server_running = begin
+      TCPSocket.new(server_host, server_port).close
+      true
+    rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
+      false
+    end
+
+    if server_running
+      puts "Server is already running at #{server_host}:#{server_port}. Skipping spawn."
+    else
+      # Clear parcel cache to ensure fresh start
+      FileUtils.rm_rf('.parcel-cache')
+
+      # Process.spawn with pgroup: true to kill the process tree (including child processes started by npm) later
+      # Run parcel directly to avoid npm swallowing signals or buffering output
+      parcel_bin = File.expand_path('../node_modules/.bin/parcel', __dir__)
+      cmd = "#{parcel_bin} --port #{server_port} --dist-dir tmp/"
+
+      if File.exist?(parcel_bin)
+        puts "Spawning server: #{cmd}"
+        $server_pid = Process.spawn({ 'CI' => 'true' }, cmd, pgroup: true, in: File::NULL, out: File::NULL, err: File::NULL)
+
+        # Wait for server to be ready
+        begin
+          Timeout.timeout(server_start_timeout) do
+            loop do
+              TCPSocket.new(server_host, server_port).close
+              break
+            rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
+              sleep 0.1
+            end
+          end
+        rescue Timeout::Error
+          Process.kill(:SIGTERM, -$server_pid)
+          raise "Server failed to start within #{server_start_timeout} seconds"
+        end
+      else
+        puts "Parcel not found at #{parcel_bin}. Skipping server start."
+      end
+    end
+  end
+
+  config.after(:suite) do
+    if $server_pid
+      begin
+        Process.kill(:SIGTERM, -$server_pid)
+        Process.wait($server_pid)
+      rescue Errno::ESRCH, Errno::ECHILD
+        # Process already dead
+      end
+    end
+  end
 end

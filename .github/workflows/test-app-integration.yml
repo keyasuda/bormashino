@@ -45,8 +45,6 @@ jobs:
       - name: test
         run: |
           cd test-app
-          nohup npm run dev &
-          sleep 15
           bundle exec rspec
 
       - name: cleanup
