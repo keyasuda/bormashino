@@ -7,4 +7,5 @@ task :default do
   Rake::Task['bormashino:pack'].invoke('--mapdir /gem::../gem/')
   Rake::Task['bormashino:delete_wasms'].invoke(TMP)
   Rake::Task['bormashino:digest'].invoke(TMP)
+  FileUtils.cp('js/fetch.txt', TMP) if File.exist?('js/fetch.txt')
 end

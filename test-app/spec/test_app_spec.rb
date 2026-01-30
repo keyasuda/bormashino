@@ -49,7 +49,7 @@ RSpec.describe 'test_app', retry: 10, type: :feature do
 
       it { is_expected.to have_text(typed_value) }
       it { is_expected.to have_text('You GET: ') }
-      it { expect(page.current_url).to eq 'http://localhost:5000/get-form-submit?value2=%E3%81%8B%E3%81%8D%E3%81%8F%E3%81%91%E3%81%93' }
+      it { expect(page.current_url).to eq 'http://127.0.0.1:5000/get-form-submit?value2=%E3%81%8B%E3%81%8D%E3%81%8F%E3%81%91%E3%81%93' }
     end
   end
 
