@@ -9,11 +9,21 @@ require 'timeout'
 
 class JSConsoleLogger
   def puts(log)
-    src = log.strip.sub(/\A.+[ 0-9.▶◀]+\{/, '{')
-    src = JSON.parse(src)
-    $stdout.puts src['params']['args'].map { |a| a['value'] || a['description'] }.join(' ') if src['method'] == 'Runtime.consoleAPICalled'
-  rescue StandardError
-    # do nothing
+    src = JSON.parse(log.strip.sub(/\A.+[ 0-9.▶◀]+\{/, '{')) rescue nil
+    return unless src
+
+    case src['method']
+    when 'Runtime.consoleAPICalled'
+      msg = src['params']['args'].map { |a| a['value'] || a['description'] }.join(' ')
+      $stdout.puts "BROWSER_CONSOLE: #{msg}"
+    when 'Runtime.exceptionThrown'
+      details = src['params']['exceptionDetails']
+      msg = details['exception'] ? (details['exception']['description'] || details['exception']['value']) : details['text']
+      $stdout.puts "BROWSER_EXCEPTION: #{msg}"
+    end
+  rescue StandardError => e
+    # If parsing fails, don't crash but maybe log raw if it looks important
+    # $stdout.puts "BROWSER_RAW: #{log}" if log.include?('error') || log.include?('fail')
   end
 end
 
@@ -23,7 +33,7 @@ Capybara.register_driver(:cuprite) do |app|
   Capybara::Cuprite::Driver.new(
     app,
     window_size: [1200, 800],
-    browser_options: { 'no-sandbox': nil },
+    browser_options: { 'no-sandbox': nil, 'disable-dev-shm-usage': nil },
     logger: JSConsoleLogger.new,
     headless: true,
     # headless: false,
@@ -135,7 +145,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     # Check if server is already running
     server_running = begin
-      TCPSocket.new('localhost', 5000).close
+      TCPSocket.new('127.0.0.1', 5000).close
       true
     rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
       false
@@ -162,7 +172,7 @@ RSpec.configure do |config|
         start_time = Time.now
         loop do
           begin
-            TCPSocket.new('localhost', 5000).close
+            TCPSocket.new('127.0.0.1', 5000).close
             break
           rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
             if Time.now - start_time > timeout

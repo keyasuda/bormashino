@@ -2,8 +2,8 @@ RSpec.describe 'test_app', retry: 10, type: :feature do
   subject { page }
 
   before do
-    visit 'http://localhost:5000'
-    expect(page).to have_css('h1', wait: 30)
+    visit 'http://127.0.0.1:5000'
+    expect(page).to have_css('h1', wait: 60)
   end
 
   describe 'initialized app' do
