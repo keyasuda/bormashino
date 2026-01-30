@@ -6,10 +6,15 @@ require 'pry'
 require 'rspec/retry'
 require 'fileutils'
 require 'timeout'
+require 'socket'
 
 class JSConsoleLogger
   def puts(log)
-    src = JSON.parse(log.strip.sub(/\A.+[ 0-9.▶◀]+\{/, '{')) rescue nil
+    src = begin
+      JSON.parse(log.strip.sub(/\A.+[ 0-9.▶◀]+\{/, '{'))
+    rescue StandardError
+      nil
+    end
     return unless src
 
     case src['method']
@@ -22,8 +27,8 @@ class JSConsoleLogger
       $stdout.puts "BROWSER_EXCEPTION: #{msg}"
     end
   rescue StandardError => e
-    # If parsing fails, don't crash but maybe log raw if it looks important
-    # $stdout.puts "BROWSER_RAW: #{log}" if log.include?('error') || log.include?('fail')
+    $stdout.puts "JSConsoleLogger ERROR: #{e.class}: #{e.message}"
+    $stdout.puts "JSConsoleLogger RAW LOG: #{log}"
   end
 end
 
@@ -143,44 +148,46 @@ RSpec.configure do |config|
   config.display_try_failure_messages = true
 
   config.before(:suite) do
+    server_host = '127.0.0.1'
+    server_port = 5000
+    server_start_timeout = 60
+
     # Check if server is already running
     server_running = begin
-      TCPSocket.new('127.0.0.1', 5000).close
+      TCPSocket.new(server_host, server_port).close
       true
     rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
       false
     end
 
     if server_running
-      puts "Server is already running at 127.0.0.1:5000. Skipping spawn."
+      puts "Server is already running at #{server_host}:#{server_port}. Skipping spawn."
     else
       # Clear parcel cache to ensure fresh start
       FileUtils.rm_rf('.parcel-cache')
-      
+
       # Process.spawn with pgroup: true to kill the process tree (including child processes started by npm) later
       # Run parcel directly to avoid npm swallowing signals or buffering output
       parcel_bin = File.expand_path('../node_modules/.bin/parcel', __dir__)
-      cmd = "#{parcel_bin} --port 5000 --dist-dir tmp/"
+      cmd = "#{parcel_bin} --port #{server_port} --dist-dir tmp/"
 
       if File.exist?(parcel_bin)
         puts "Spawning server: #{cmd}"
-        $server_pid = Process.spawn({'CI' => 'true'}, cmd, pgroup: true, in: File::NULL, out: File::NULL, err: File::NULL)
+        $server_pid = Process.spawn({ 'CI' => 'true' }, cmd, pgroup: true, in: File::NULL, out: File::NULL, err: File::NULL)
 
         # Wait for server to be ready
-        require 'socket'
-        timeout = 60
-        start_time = Time.now
-        loop do
-          begin
-            TCPSocket.new('127.0.0.1', 5000).close
-            break
-          rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
-            if Time.now - start_time > timeout
-              Process.kill(:SIGTERM, -$server_pid)
-              raise "Server failed to start within #{timeout} seconds"
+        begin
+          Timeout.timeout(server_start_timeout) do
+            loop do
+              TCPSocket.new(server_host, server_port).close
+              break
+            rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
+              sleep 0.1
             end
-            sleep 0.1
           end
+        rescue Timeout::Error
+          Process.kill(:SIGTERM, -$server_pid)
+          raise "Server failed to start within #{server_start_timeout} seconds"
         end
       else
         puts "Parcel not found at #{parcel_bin}. Skipping server start."
