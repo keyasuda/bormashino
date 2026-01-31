@@ -5,6 +5,7 @@ require 'bormashino/local_storage'
 
 class App < Sinatra::Base
   set :protection, false
+  set :host_authorization, { permitted_hosts: [] }
 
   get '/' do
     @world = 'world'
