@@ -2,6 +2,7 @@ require 'sinatra/base'
 require_relative '../../lib/bormashino/server'
 class MockApp < Sinatra::Base
   set :protection, false
+  set :host_authorization, { permitted_hosts: [] }
 
   get '/get' do
     "get action #{params[:param]}"
@@ -52,6 +53,8 @@ RSpec.describe Bormashino::Server do
   end
 
   describe 'psuedo HTTP request' do
+    before { described_class.mount(MockApp) }
+
     describe 'GET with no queries' do
       subject { JSON.parse described_class.request('GET', '/get') }
 
