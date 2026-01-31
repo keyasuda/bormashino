@@ -1,3 +1,8 @@
+## [0.3.1] - 2026-01-31
+
+- use ruby.wasm 2.6.0 (Ruby 3.2.4)
+- use @ruby/3.2-wasm-wasi instead of ruby-3_2-wasm-wasi
+
 ## [0.3.0] - 2024-01-27
 
 - use sinatra >= 4.0.0
