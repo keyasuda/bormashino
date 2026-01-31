@@ -7,6 +7,7 @@ require 'rspec/retry'
 require 'fileutils'
 require 'timeout'
 require 'socket'
+require 'webrick'
 
 class JSConsoleLogger
   def puts(log)
@@ -88,7 +89,7 @@ RSpec.configure do |config|
   # This option will default to `:apply_to_host_groups` in RSpec 4 (and will
   # have no way to turn it off -- the option exists only for backwards
   # compatibility in RSpec 3). It causes shared context metadata to be
-  # inherited by the metadata hash of host groups and examples, rather than
+  # inherited by the metadata hash of example groups and examples, rather than
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
@@ -121,12 +122,12 @@ RSpec.configure do |config|
   #   if config.files_to_run.one?
   #     # Use the documentation formatter for detailed output,
   #     # unless a formatter has already been configured
-  #     # (e.g. via a command-line flag).
+  #     # (e.g., via a command-line flag).
   #     config.default_formatter = "doc"
   #   end
   #
   #   # Print the 10 slowest examples and example groups at the
-  #   # end of the spec run, to help surface which specs are running
+  #   # end of the test run, to help surface which examples are running
   #   # particularly slow.
   #   config.profile_examples = 10
   #
@@ -152,53 +153,65 @@ RSpec.configure do |config|
     server_port = 5000
     server_start_timeout = 60
 
-    # Check if server is already running
-    server_running = begin
+    # Kill any existing processes on the port
+    puts "Checking for existing servers on port #{server_port}..."
+    begin
       TCPSocket.new(server_host, server_port).close
-      true
+      puts "Found existing server, killing processes on port #{server_port}..."
+      `lsof -ti:#{server_port} | xargs kill -9 2>/dev/null`
+      sleep 1
     rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
-      false
+      # No server running, which is good
     end
 
-    if server_running
-      puts "Server is already running at #{server_host}:#{server_port}. Skipping spawn."
-    else
-      # Clear parcel cache to ensure fresh start
-      FileUtils.rm_rf('.parcel-cache')
+    # Build with parcel first
+    puts 'Building with parcel...'
+    parcel_bin = File.expand_path('../node_modules/.bin/parcel', __dir__)
+    if File.exist?(parcel_bin)
+      build_cmd = "#{parcel_bin} build js/index.html --dist-dir tmp/ --no-optimize 2>&1"
+      puts "Running: #{build_cmd}"
+      build_output = `#{build_cmd}`
+      puts build_output
+    end
 
-      # Process.spawn with pgroup: true to kill the process tree (including child processes started by npm) later
-      # Run parcel directly to avoid npm swallowing signals or buffering output
-      parcel_bin = File.expand_path('../node_modules/.bin/parcel', __dir__)
-      cmd = "#{parcel_bin} --port #{server_port} --dist-dir tmp/"
+    # Start custom HTTP server with proper MIME type support
+    puts "Starting HTTP server on #{server_host}:#{server_port}..."
+    server = WEBrick::HTTPServer.new(
+      BindAddress: server_host,
+      Port: server_port,
+      DocumentRoot: File.expand_path('../tmp', __dir__),
+      Logger: WEBrick::Log.new(File::NULL),
+      AccessLog: [],
+    )
 
-      if File.exist?(parcel_bin)
-        puts "Spawning server: #{cmd}"
-        $server_pid = Process.spawn({ 'CI' => 'true' }, cmd, pgroup: true, in: File::NULL, out: File::NULL, err: File::NULL)
+    # Add proper MIME type for WASM files
+    server.config[:MimeTypes]['wasm'] = 'application/wasm'
 
-        # Wait for server to be ready
-        begin
-          Timeout.timeout(server_start_timeout) do
-            loop do
-              TCPSocket.new(server_host, server_port).close
-              break
-            rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
-              sleep 0.1
-            end
-          end
-        rescue Timeout::Error
-          Process.kill(:SIGTERM, -$server_pid)
-          raise "Server failed to start within #{server_start_timeout} seconds"
+    $server_pid = fork do
+      server.start
+    end
+
+    # Wait for server to be ready
+    begin
+      Timeout.timeout(server_start_timeout) do
+        loop do
+          TCPSocket.new(server_host, server_port).close
+          break
+        rescue Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
+          sleep 0.1
         end
-      else
-        puts "Parcel not found at #{parcel_bin}. Skipping server start."
       end
+      puts "Server is ready at #{server_host}:#{server_port}"
+    rescue Timeout::Error
+      Process.kill(:SIGTERM, $server_pid) if $server_pid
+      raise "Server failed to start within #{server_start_timeout} seconds"
     end
   end
 
   config.after(:suite) do
     if $server_pid
       begin
-        Process.kill(:SIGTERM, -$server_pid)
+        Process.kill(:SIGTERM, $server_pid)
         Process.wait($server_pid)
       rescue Errno::ESRCH, Errno::ECHILD
         # Process already dead
