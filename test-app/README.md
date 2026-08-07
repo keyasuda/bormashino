@@ -20,7 +20,6 @@ in the template dir
 
 ```bash
 rbenv install 3.2.0-preview1
-gem install foreman
 bundle install
 (cd src && bundle install)
 npm install
