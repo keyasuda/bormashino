@@ -1,8 +1,6 @@
 require: rubocop-rake
 
-inherit_gem:
-  fablicop:
-    - "config/.base_rubocop.yml"
+inherit_from: config/base_rubocop.yml
 
 AllCops:
   Exclude:
@@ -13,9 +11,6 @@ AllCops:
 
 RSpec/InstanceVariable:
   Enabled: false
-
-Rails/Output:
-  AutoCorrect: false
 
 Metrics/AbcSize:
   Max: 24
@@ -44,11 +39,12 @@ Style/FrozenStringLiteralComment:
 Lint/EmptyClass:
   Enabled: false
 
-Rails/RakeEnvironment:
-  Enabled: false
-
-RSpec/FilePath:
-  Enabled: false
-
 RSpec/SpecFilePathFormat:
+  Enabled: false
+
+RSpec/SpecFilePathSuffix:
+  Enabled: false
+
+# This code intentionally declares a top-level error class within a stub file.
+Style/OneClassPerFile:
   Enabled: false

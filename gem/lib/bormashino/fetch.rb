@@ -19,7 +19,7 @@ module Bormashino
     def run
       raise 'No mounted apps' unless Bormashino::Server.mounted?
 
-      # rubocop:disable Style::DocumentDynamicEvalDefinition
+      # rubocop:disable Style/DocumentDynamicEvalDefinition
       JS.eval <<-ENDOFEVAL
         fetch(
           #{@resource.to_json},
@@ -36,7 +36,7 @@ module Bormashino
           })
         })
       ENDOFEVAL
-      # rubocop:enable Style::DocumentDynamicEvalDefinition
+      # rubocop:enable Style/DocumentDynamicEvalDefinition
     end
   end
 end

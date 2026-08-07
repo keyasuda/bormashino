@@ -1,6 +1,4 @@
-inherit_gem:
-  fablicop:
-    - 'config/.base_rubocop.yml'
+inherit_from: ../gem/config/base_rubocop.yml
 
 AllCops:
   Exclude:
@@ -12,8 +10,9 @@ AllCops:
 RSpec/InstanceVariable:
   Enabled: false
 
-Rails/Output:
-  AutoCorrect: false
+# Logging to stdout in the spec helper is intentional.
+RSpec/Output:
+  Enabled: false
 
 Metrics/AbcSize:
   Max: 24
@@ -40,7 +39,4 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 
 Lint/EmptyClass:
-  Enabled: false
-
-Rails/RakeEnvironment:
   Enabled: false

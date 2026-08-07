@@ -4,6 +4,7 @@ module Bormashino
   # LocalStorage mock for unit tests
   class LocalStorage
     include Singleton
+
     attr_reader :store
 
     def initialize

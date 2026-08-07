@@ -1,0 +1,195 @@
+require:
+  - rubocop-rspec
+
+# We exclude files that are generated automatically or test data.
+AllCops:
+  Exclude:
+    - "vendor/**/*"
+
+  DisplayCopNames: true
+  NewCops: enable
+
+Gemspec/OrderedDependencies:
+  Enabled: false
+
+##################### Style ##################################
+
+# We sometimes use non-ascii comments.
+Style/AsciiComments:
+  Enabled: false
+
+# We prefer trailing comma all the time.
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+# We learned documentation is important.
+Style/Documentation:
+    Enabled: true
+
+# We sometimes want to use `self` anyway.
+Style/RedundantSelf:
+    Enabled: false
+
+# We want to allow the code like this:
+#
+#   xs.select {
+#     f x
+#   }.map { |x|
+#     f x
+#     f x
+#   }.compact
+# do ... . end, and further method chaining from the end would be confusing to look at
+# Don't use method chaining in auto-correct, and modify it yourself.
+# Allow it in specs because it looks nice.
+Style/BlockDelimiters:
+  AutoCorrect: false
+  Exclude:
+    - "spec/**/*"
+Style/MultilineBlockChain:
+  Enabled: false
+Style/EmptyMethod:
+  Enabled: false
+
+# We sometimes want to use empty case when there are many conditions.
+Style/EmptyCaseCondition:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/ParallelAssignment:
+  Enabled: false
+
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: false
+
+Style/DefWithParentheses:
+  Enabled: false
+
+# Sometimes, 1000 is better than 1_000. Especially, it's useful to run grep(1) for searching `1000`.
+Style/NumericLiterals:
+  Enabled: false
+
+# foo.zero? don't care nil case, we should avoid undefined method risk
+Style/NumericPredicate:
+  Enabled: false
+
+# We don't care which we use: #yield_self or #then
+Style/ObjectThen:
+  Enabled: false
+
+# We don't care using ENV.fetch or ENV.[]
+Style/FetchEnvVar:
+  Enabled: false
+
+# We don't care which style we should use.
+Style/IfUnlessModifier:
+  Enabled: false
+
+# We don't care about the style of Arrays.
+Style/WordArray:
+  Enabled: false
+
+# We don't care about the style of Arrays.
+Style/SymbolArray:
+  Enabled: false
+
+##################### Layout ##################################
+# We sometimes want to put multiple spaces before arguments.
+Layout/SpaceBeforeFirstArg:
+  Enabled: false
+Layout/SpaceInLambdaLiteral:
+  Enabled: false
+Layout/HeredocIndentation:
+  Enabled: false
+
+# We want to allow various expression for arguments.
+#
+# foo(a,
+#  b
+# )
+# foo(
+#  a,
+#  b)
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: false
+
+# We don't want to enforce various method calls.
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+# Sometimes, we want to write like this:
+#
+# aaa(bbb(
+#   ccc
+# ))
+Layout/FirstParameterIndentation:
+  Enabled: false
+
+# We want to allow both of them.
+Layout/DotPosition:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 160
+
+##################### Lint ##################################
+
+# We sometimes want to put spaces before arguments.
+Lint/ParenthesesAsGroupedExpression:
+    Enabled: false
+
+##################### Metrics ##################################
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+# Does the variable name for an exception object really matter?
+Naming/RescuedExceptionsVariableName:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
+##################### RSpec ##################################
+
+# relaxing the cop for specs where no when/with/without context is needed
+RSpec/ContextWording:
+  Enabled: false
+
+# specs that test several subjects at once are hard to name reasonably
+RSpec/NamedSubject:
+  Enabled: false
+
+# several examples are expected to contain multiple lines
+RSpec/ExampleLength:
+  Enabled: false
+
+# We don't care about whether using `described_class` or not.
+RSpec/DescribedClass:
+  Enabled: false
