@@ -49,3 +49,6 @@ Rails/RakeEnvironment:
 
 RSpec/FilePath:
   Enabled: false
+
+RSpec/SpecFilePathFormat:
+  Enabled: false
