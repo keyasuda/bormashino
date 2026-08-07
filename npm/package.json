@@ -16,7 +16,8 @@
     "@babel/preset-env": "^7.29.7",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "node-notifier": "^10.0.1"
+    "node-notifier": "^10.0.1",
+    "uuid": "^14.0.1"
   },
   "dependencies": {
     "@wasmer/wasi": "0.12.0",
