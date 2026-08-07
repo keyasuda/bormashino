@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 
 gem 'bormashino', path: '../gem/'
 gem 'pry'
+gem 'rake'
 gem 'rspec', '>= 3.0.0'
 gem 'rubocop', '~> 1.89'
 gem 'rubocop-rspec'
