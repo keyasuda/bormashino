@@ -12,7 +12,7 @@ end
 
 load 'bormashino/tasks/bormashino.rake'
 
-RSpec.describe 'bormashino:*', rake: true do
+RSpec.describe 'bormashino:*', :rake do
   let(:tmpdir) { Dir.mktmpdir }
 
   describe 'pack' do
